@@ -172,7 +172,7 @@ knowledge/
 │
 ├── 02-concepts/               # Layer 2: 概念体系
 │   ├── ai-ops/                # AI 运维概念
-│   ├── personal-ops/          # 个人运营概念
+│   ├── ops/                   # 运营概念（个人/组织）
 │   └── <your-domain>/         # 自定义领域
 │
 ├── 03-comparisons/            # Layer 2: 对比分析
@@ -187,7 +187,7 @@ knowledge/
 │
 ├── 08-references/             # Layer 3: 参考资料
 │
-└── 09-personal-ops/           # 个人运营（不公开）
+└── 09-personal-data/          # 个人数据（不公开，gitignore 排除）
 ```
 
 ## 技能清单
