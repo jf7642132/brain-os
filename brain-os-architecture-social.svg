@@ -33,48 +33,48 @@
   <text x="400" y="75" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#94a3b8">todo-backlog.md 作为统一任务入口</text>
   
   <!-- Producers Section -->
-  <rect x="50" y="100" width="200" height="180" rx="12" fill="url(#producerGrad)" filter="url(#shadow)" opacity="0.9"/>
-  <text x="150" y="130" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="bold" fill="#ffffff">生产者（8 个）</text>
+  <rect x="50" y="100" width="200" height="220" rx="12" fill="url(#producerGrad)" filter="url(#shadow)" opacity="0.9"/>
+  <text x="150" y="125" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="bold" fill="#ffffff">生产者（8 个）</text>
   
-  <text x="150" y="165" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#e0e7ff">• 史官记录</text>
-  <text x="150" y="185" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#e0e7ff">• 观察者自检</text>
-  <text x="150" y="205" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#e0e7ff">• 知识库审计</text>
-  <text x="150" y="225" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#e0e7ff">• 夜间文章整合</text>
-  <text x="150" y="245" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#e0e7ff">• 对话知识挖掘</text>
-  <text x="150" y="265" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#e0e7ff">• 知识聚合</text>
-  <text x="150" y="285" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#e0e7ff">• 自动提交巡检</text>
+  <text x="150" y="155" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#e0e7ff">• 史官记录</text>
+  <text x="150" y="175" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#e0e7ff">• 观察者自检</text>
+  <text x="150" y="195" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#e0e7ff">• 知识库审计</text>
+  <text x="150" y="215" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#e0e7ff">• 夜间文章整合</text>
+  <text x="150" y="235" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#e0e7ff">• 对话知识挖掘</text>
+  <text x="150" y="255" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#e0e7ff">• 知识聚合</text>
+  <text x="150" y="275" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#e0e7ff">• 自动提交巡检</text>
   
   <!-- Arrow: Producers → Hub -->
-  <path d="M 250 190 L 280 190" stroke="#10b981" stroke-width="3" fill="none" marker-end="url(#arrowGreen)"/>
-  <polygon points="280,185 290,190 280,195" fill="#10b981"/>
+  <path d="M 250 210 L 280 210" stroke="#10b981" stroke-width="3" fill="none" marker-end="url(#arrowGreen)"/>
+  <polygon points="280,205 290,210 280,215" fill="#10b981"/>
   
   <!-- Central Hub: todo-backlog.md -->
-  <rect x="300" y="130" width="200" height="120" rx="12" fill="url(#hubGrad)" filter="url(#shadow)"/>
-  <text x="400" y="170" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="bold" fill="#ffffff">todo-backlog.md</text>
-  <text x="400" y="195" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#d1fae5">统一任务入口</text>
-  <text x="400" y="220" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#a7f3d0">高 → 每日早报</text>
-  <text x="400" y="238" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#a7f3d0">中 → 每周计划</text>
-  <text x="400" y="256" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#a7f3d0">低 → 月度总结</text>
+  <rect x="300" y="130" width="200" height="160" rx="12" fill="url(#hubGrad)" filter="url(#shadow)"/>
+  <text x="400" y="165" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="bold" fill="#ffffff">todo-backlog.md</text>
+  <text x="400" y="190" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#d1fae5">统一任务入口</text>
+  <text x="400" y="215" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#a7f3d0">高 → 每日早报</text>
+  <text x="400" y="235" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#a7f3d0">中 → 每周计划</text>
+  <text x="400" y="255" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#a7f3d0">低 → 月度总结</text>
   
   <!-- Arrow: Hub → Consumers -->
-  <path d="M 500 190 L 530 190" stroke="#f59e0b" stroke-width="3" fill="none"/>
-  <polygon points="530,185 540,190 530,195" fill="#f59e0b"/>
+  <path d="M 500 210 L 530 210" stroke="#f59e0b" stroke-width="3" fill="none"/>
+  <polygon points="530,205 540,210 530,215" fill="#f59e0b"/>
   
   <!-- Consumers Section -->
-  <rect x="550" y="100" width="200" height="180" rx="12" fill="url(#consumerGrad)" filter="url(#shadow)" opacity="0.9"/>
-  <text x="650" y="130" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="bold" fill="#ffffff">消费者（3 个）</text>
+  <rect x="550" y="100" width="200" height="220" rx="12" fill="url(#consumerGrad)" filter="url(#shadow)" opacity="0.9"/>
+  <text x="650" y="125" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="bold" fill="#ffffff">消费者（3 个）</text>
   
-  <rect x="570" y="145" width="160" height="40" rx="6" fill="#fef3c7" opacity="0.3"/>
-  <text x="650" y="170" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#ffffff">每日早报</text>
-  <text x="650" y="185" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#fef3c7">高优先级</text>
+  <rect x="570" y="140" width="160" height="40" rx="6" fill="#fef3c7" opacity="0.3"/>
+  <text x="650" y="165" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#ffffff">每日早报</text>
+  <text x="650" y="180" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#fef3c7">高优先级</text>
   
-  <rect x="570" y="195" width="160" height="40" rx="6" fill="#fef3c7" opacity="0.3"/>
-  <text x="650" y="220" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#ffffff">每周计划</text>
-  <text x="650" y="235" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#fef3c7">中优先级</text>
+  <rect x="570" y="190" width="160" height="40" rx="6" fill="#fef3c7" opacity="0.3"/>
+  <text x="650" y="215" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#ffffff">每周计划</text>
+  <text x="650" y="230" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#fef3c7">中优先级</text>
   
-  <rect x="570" y="245" width="160" height="40" rx="6" fill="#fef3c7" opacity="0.3"/>
-  <text x="650" y="270" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#ffffff">月度总结</text>
-  <text x="650" y="285" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#fef3c7">低优先级</text>
+  <rect x="570" y="240" width="160" height="40" rx="6" fill="#fef3c7" opacity="0.3"/>
+  <text x="650" y="265" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#ffffff">月度总结</text>
+  <text x="650" y="280" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#fef3c7">低优先级</text>
   
   <!-- Kanban Section -->
   <rect x="300" y="300" width="200" height="80" rx="12" fill="url(#kanbanGrad)" filter="url(#shadow)"/>
@@ -83,7 +83,7 @@
   <text x="400" y="378" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#ede9fe">状态同步 · 防重复</text>
   
   <!-- Arrow: Hub → Kanban -->
-  <path d="M 400 250 L 400 300" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="5,5" fill="none"/>
+  <path d="M 400 290 L 400 300" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="5,5" fill="none"/>
   
   <!-- Footer -->
   <rect x="50" y="420" width="700" height="150" rx="12" fill="#0f172a" opacity="0.8"/>
