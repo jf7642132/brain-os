@@ -216,7 +216,7 @@ knowledge/
 
 ## 技能清单
 
-Brain OS 依赖以下 Hermes 内置技能（无需额外安装）：
+Brain OS 依赖以下自定义技能，需安装到技能目录：
 
 | 技能 | 定位 | 触发方式 |
 |------|------|----------|
@@ -226,6 +226,8 @@ Brain OS 依赖以下 Hermes 内置技能（无需额外安装）：
 | `article-notes-integration` | 外部文章整合 | 夜间定时 (02:00) |
 | `conversation-knowledge-flywheel` | 对话模式挖掘 | 夜间定时 (03:00) |
 | `knowledge-flywheel-amplifier` | 跨源知识聚合 | 夜间定时 (04:00) |
+
+> 以上技能均为自定义实现，非 Hermes 官方内置。安装时请确保这些技能已存在于 `~/.hermes/skills/` 目录中。
 
 ## 配置
 
