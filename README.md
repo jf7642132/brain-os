@@ -1,96 +1,204 @@
 # Brain OS
 
-> 一套基于 OpenClaw git-backed brain 设计的 Hermes 技能体系，实现 Agent 的 git 驱动知识管理。
+> 一套基于 OpenClaw git-backed brain 设计、结合 Hermes Kanban 调度的技能体系
 
 ## 这是什么
 
 Brain OS **不是独立系统**，而是一套**可组合的技能集合**，灵感来源于 [OpenClaw](https://github.com/openclaw/openclaw) 的 git-backed brain 设计。
 
-核心思想：**Agent 的知识库、记忆、配置全部存储在 git 仓库中**，版本可控、可回溯、多 Agent 共享。
+**核心创新**：在 OpenClaw 的 git-backed brain 基础上，**结合 Hermes Kanban 任务调度**，实现：
+- **任务驱动的知识管理** — 每个知识操作都是 kanban 上的可追踪任务
+- **自动化工作流** — 夜间自动执行知识挖掘、聚合、同步
+- **版本可控** — 所有知识变更通过 git 提交，可回溯
+- **多 Agent 共享** — 同一知识库可被多个 Agent 访问
 
 ## 运行逻辑
 
-Brain OS 的工作流由 7 个 Hermes 内置技能协同完成，形成一个**数据闭环**：
+Brain OS 的核心是 **Kanban 任务调度 + Git 知识存储** 的双轮驱动：
 
 ```
-┌──────────────────────────────────────────────────────────────────────┐
-│                        Brain OS 运行逻辑                              │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  ┌─────────────┐                                                     │
-│  │   用户对话   │ ← 你在 Telegram/微信/Discord 等渠道与 Agent 对话      │
-│  └──────┬──────┘                                                     │
-│         │                                                            │
-│         ▼                                                            │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │  1. chronicle-agent (对话归档)                               │    │
-│  │     作用：将对话记录归档到 knowledge/00-raw/transcripts/      │    │
-│  │     触发：夜间定时任务                                       │    │
-│  └────────────────────────┬────────────────────────────────────┘    │
-│                           │                                          │
-│                           ▼                                          │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │  2. conversation-knowledge-flywheel (模式挖掘)               │    │
-│  │     作用：从对话中提取可复用的模式、技巧、经验                 │    │
-│  │     输出：knowledge/03-comparisons/、knowledge/05-summaries/ │    │
-│  │     触发：夜间定时任务                                       │    │
-│  └────────────────────────┬────────────────────────────────────┘    │
-│                           │                                          │
-│                           ▼                                          │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │  3. knowledge-flywheel-amplifier (跨源聚合)                  │    │
-│  │     作用：合并对话、文章、笔记等多源知识                      │    │
-│  │     输出：knowledge/04-queries/ 统一知识图谱                  │    │
-│  │     触发：夜间定时任务                                       │    │
-│  └────────────────────────┬────────────────────────────────────┘    │
-│                           │                                          │
-│                           ▼                                          │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │  4. llm-wiki (知识结构化)                                    │    │
-│  │     作用：将知识组织成可检索的结构化格式                      │    │
-│  │     输出：knowledge/02-concepts/ 领域知识体系                 │    │
-│  │     触发：手动/定时                                          │    │
-│  └────────────────────────┬────────────────────────────────────┘    │
-│                           │                                          │
-│                           ▼                                          │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │  5. cron-git-state-monitoring (Git 同步)                     │    │
-│  │     作用：定时提交知识变更到 git 仓库                         │    │
-│  │     输出：Git 仓库（版本历史 + 多 Agent 共享）                │    │
-│  │     触发：定时提交（默认每天 6 点）                           │    │
-│  └────────────────────────┬────────────────────────────────────┘    │
-│                           │                                          │
-│                           ▼                                          │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │  6. observer (Agent 自检)                                    │    │
-│  │     作用：检查 Agent 运行状态，发现错误并记录经验             │    │
-│  │     输出：knowledge/05-summaries/ 经验总结                   │    │
-│  │     触发：每次任务完成后                                     │    │
-│  └─────────────────────────────────────────────────────────────┘    │
-│                                                                      │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │  7. article-notes-integration (外部文章整合)                 │    │
-│  │     作用：抓取外部文章并整合到知识库                          │    │
-│  │     输出：knowledge/04-queries/                              │    │
-│  │     触发：夜间定时任务                                       │    │
-│  └─────────────────────────────────────────────────────────────┘    │
-│                                                                      │
-└──────────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         Brain OS 运行逻辑                                    │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ┌──────────────────────────────────────────────────────────────────┐      │
+│  │                    Kanban 任务调度层 (Hermes)                      │      │
+│  │                                                                    │      │
+│  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐               │      │
+│  │  │ 夜间归档     │  │ 模式挖掘     │  │ 知识聚合     │               │      │
+│  │  │ cron: 0 3 * │  │ cron: 0 4 * │  │ cron: 0 5 * │               │      │
+│  │  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘               │      │
+│  │         │                │                │                        │      │
+│  │         └────────────────┼────────────────┘                        │      │
+│  │                          ▼                                         │      │
+│  │              ┌─────────────────────┐                               │      │
+│  │              │  cron-git-state     │                               │      │
+│  │              │  定时 Git 同步       │                               │      │
+│  │              │  cron: 0 6 * * *    │                               │      │
+│  │              └──────────┬──────────┘                               │      │
+│  └─────────────────────────┼──────────────────────────────────────────┘      │
+│                            │                                                  │
+│                            ▼                                                  │
+│  ┌──────────────────────────────────────────────────────────────────┐      │
+│  │                    Git 知识存储层 (Brain OS)                       │      │
+│  │                                                                    │      │
+│  │  knowledge/                                                        │      │
+│  │  ├── 00-raw/transcripts/   ← chronicle-agent 对话归档             │      │
+│  │  ├── 01-entities/          ← 人物/项目/公司实体提取               │      │
+│  │  ├── 02-concepts/          ← llm-wiki 知识结构化                  │      │
+│  │  ├── 03-comparisons/       ← 对比分析                             │      │
+│  │  ├── 04-queries/           ← 知识图谱/查询模板                    │      │
+│  │  ├── 05-summaries/         ← 总结归档                             │      │
+│  │  └── 06-context/           ← 上下文/待办追踪                      │      │
+│  │                                                                    │      │
+│  │  Git 仓库 ← cron-git-state-monitoring 定时提交                    │      │
+│  └──────────────────────────────────────────────────────────────────┘      │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 关键设计
+### 详细流程
 
-| 设计原则 | 说明 |
-|----------|------|
-| **Git 驱动** | 所有知识存储在 git 仓库，版本可控，可回溯 |
-| **技能可组合** | 每个技能独立，可按需启用/禁用 |
-| **夜间批处理** | 知识挖掘、聚合等重任务在夜间执行，不干扰白天使用 |
-| **多 Agent 共享** | 同一知识库可被多个 Agent 访问，知识沉淀不丢失 |
+#### 1. 对话发生（实时）
+
+```
+用户 ──► Agent (Hermes) ──► 对话记录
+                              │
+                              ▼
+                    hermes 自动记录到会话历史
+```
+
+#### 2. 夜间归档（cron: 0 3 * * *）
+
+```
+chronicle-agent 触发
+    │
+    ▼
+读取最近 24 小时对话
+    │
+    ▼
+归档到 knowledge/00-raw/transcripts/YYYY-MM-DD.md
+    │
+    ▼
+标记 kanban 任务为 "已完成"
+```
+
+#### 3. 模式挖掘（cron: 0 4 * * *）
+
+```
+conversation-knowledge-flywheel 触发
+    │
+    ▼
+分析归档的对话
+    │
+    ├── 提取可复用模式 → knowledge/03-comparisons/
+    ├── 提取经验技巧 → knowledge/05-summaries/
+    └── 提取待办事项 → knowledge/06-context/todo-tracking/
+```
+
+#### 4. 知识聚合（cron: 0 5 * * *）
+
+```
+knowledge-flywheel-amplifier 触发
+    │
+    ▼
+合并多源知识：
+    ├── 对话挖掘的模式
+    ├── 外部文章整合 (article-notes-integration)
+    └── 已有知识图谱
+    │
+    ▼
+输出统一知识图谱 → knowledge/04-queries/
+```
+
+#### 5. Git 同步（cron: 0 6 * * *）
+
+```
+cron-git-state-monitoring 触发
+    │
+    ▼
+检查 knowledge/ 变更
+    │
+    ▼
+git add + commit + push
+    │
+    ▼
+版本历史更新，多 Agent 可拉取最新知识
+```
+
+#### 6. Agent 自检（cron: 0 9 * * *）
+
+```
+observer 触发
+    │
+    ▼
+检查 Agent 运行状态
+    │
+    ├── 发现错误 → 记录到 knowledge/05-summaries/errors/
+    ├── 总结经验 → 更新技能文档
+    └── 报告状态 → 发送通知
+```
+
+## 核心设计
+
+### 1. Kanban 任务驱动
+
+Brain OS 的所有知识操作都是 **kanban 上的任务**：
+
+```bash
+# 查看 Brain OS 相关任务
+hermes kanban list --filter "brain-os"
+
+# 手动触发某个任务
+hermes kanban run nightly-article-integration
+
+# 查看任务状态
+hermes kanban status
+```
+
+**优势**：
+- 每个操作可追踪、可回溯
+- 失败任务可重试
+- 任务状态可视化
+
+### 2. Git 驱动的知识存储
+
+所有知识存储在 git 仓库中：
+
+```bash
+# 查看知识变更历史
+cd ~/.hermes/brain-os && git log --oneline
+
+# 回滚到某个版本
+git checkout <commit-hash>
+
+# 多 Agent 共享
+git pull  # 拉取其他 Agent 的知识更新
+```
+
+**优势**：
+- 版本可控，可回溯
+- 多 Agent 共享同一知识库
+- 变更有完整审计日志
+
+### 3. 技能可组合
+
+Brain OS 依赖的 7 个技能均为 Hermes 内置，可独立使用：
+
+| 技能 | 作用 | 是否必需 |
+|------|------|----------|
+| `chronicle-agent` | 对话归档 | ✅ 必需 |
+| `conversation-knowledge-flywheel` | 模式挖掘 | ✅ 必需 |
+| `knowledge-flywheel-amplifier` | 跨源聚合 | ✅ 必需 |
+| `llm-wiki` | 知识结构化 | ✅ 必需 |
+| `cron-git-state-monitoring` | Git 同步 | ✅ 必需 |
+| `article-notes-integration` | 文章整合 | 可选 |
+| `observer` | Agent 自检 | 可选 |
 
 ## 快速安装
 
 ```bash
-# 1. 克隆到技能目录
+# 1. 克隆技能到本地
 git clone https://github.com/jf7642132/brain-os.git ~/.hermes/skills/brain-os
 
 # 2. 验证安装
@@ -99,16 +207,19 @@ hermes skills list | grep brain-os
 # 3. 查看安装说明
 hermes skills view brain-os
 
-# 4. 导入定时任务
+# 4. 导入定时任务（配置 kanban 调度）
 hermes cron import ~/.hermes/skills/brain-os/templates/jobs-template.json
 
 # 5. 查看已导入任务
 hermes cron list
+
+# 6. 手动测试
+hermes cron run nightly-article-integration
 ```
 
 ## 配置
 
-### 环境变量（可选）
+### 环境变量
 
 | 变量 | 说明 | 默认值 |
 |------|------|--------|
@@ -117,88 +228,50 @@ hermes cron list
 | `HERMES_TODO_PATH` | 待办追踪路径 | `$HERMES_KNOWLEDGE/06-context/todo-tracking/todo-backlog.md` |
 | `BRAINO_GIT_REPO` | Git 仓库路径 | `$HERMES_ROOT/brain-os` |
 
-### 目录结构规范
+### Kanban 任务配置
 
-```
-knowledge/
-├── 00-raw/                    # Layer 0: 原始数据
-│   └── transcripts/           # 对话原始记录
-│
-├── 01-entities/               # Layer 1: 实体提取
-│   ├── people/                # 人物信息
-│   ├── projects/              # 项目信息
-│   └── companies/             # 公司信息
-│
-├── 02-concepts/               # Layer 2: 概念体系
-│   ├── ai-ops/                # AI 运维概念
-│   ├── personal-ops/          # 个人运营概念
-│   └── <your-domain>/         # 自定义领域
-│
-├── 03-comparisons/            # Layer 2: 对比分析
-├── 04-queries/                # Layer 2: 查询模板
-├── 05-summaries/              # Layer 2: 总结归档
-│
-├── 06-context/                # Layer 3: 上下文
-│   └── todo-tracking/         # 待办追踪
-│
-└── 09-personal-ops/           # 个人运营（可选）
-```
-
-## 使用
-
-### 同步 kanban 到 git
+编辑 `templates/jobs-template.json` 后导入：
 
 ```bash
-# 预览变更
-python ~/.hermes/skills/brain-os/references/kanban-sync.py --dry-run
+# 复制模板
+cp ~/.hermes/skills/brain-os/templates/jobs-template.json ~/.hermes/brain-os-jobs.json
 
-# 同步并提交
-python ~/.hermes/skills/brain-os/references/kanban-sync.py --commit
+# 编辑配置（调整 schedule 或 command）
+vim ~/.hermes/brain-os-jobs.json
+
+# 导入
+hermes cron import ~/.hermes/brain-os-jobs.json
 ```
 
-### 手动运行技能
+## 目录结构
 
-```bash
-# 夜间文章整合
-hermes skills run article-notes-integration
-
-# 对话模式挖掘
-hermes skills run conversation-knowledge-flywheel
-
-# Agent 自检
-hermes skills run observer
+```
+brain-os/
+├── SKILL.md                          # 技能主文档
+├── references/
+│   ├── kanban-sync.py                # Kanban-Git 同步工具
+│   └── brain-os-architecture.md      # 详细架构设计
+├── templates/
+│   └── jobs-template.json            # Kanban 任务配置模板
+├── scripts/
+│   └── deploy.sh                     # 部署脚本
+├── LICENSE                           # MIT
+├── .gitignore                        # Git 忽略规则
+└── README.md                         # 本文件
 ```
 
-### 查看知识状态
+## 与 OpenClaw 的区别
 
-```bash
-# 查看知识库结构
-ls -la ~/.hermes/knowledge/
+| 特性 | OpenClaw | Brain OS |
+|------|----------|----------|
+| 设计灵感 | - | ✅ OpenClaw git-backed brain |
+| Git 存储 | ✅ | ✅ |
+| Kanban 调度 | ❌ | ✅ **核心创新** |
+| 夜间批处理 | ❌ | ✅ |
+| 技能可组合 | 部分 | ✅ 全部 Hermes 内置 |
+| 多 Agent 共享 | ✅ | ✅ |
 
-# 查看待办事项
-cat ~/.hermes/knowledge/06-context/todo-tracking/todo-backlog.md
-
-# 查看最近提交
-cd ~/.hermes/brain-os && git log --oneline -10
-```
-
-## 技能清单
-
-Brain OS 依赖以下 Hermes 内置技能（无需额外安装）：
-
-| 技能 | 作用 | 触发方式 |
-|------|------|----------|
-| `chronicle-agent` | 对话记录归档 | 夜间定时 |
-| `observer` | Agent 自检 | 每次任务完成后 |
-| `llm-wiki` | 知识结构化 | 手动/定时 |
-| `article-notes-integration` | 外部文章整合 | 夜间定时 |
-| `conversation-knowledge-flywheel` | 对话模式挖掘 | 夜间定时 |
-| `knowledge-flywheel-amplifier` | 跨源知识聚合 | 夜间定时 |
-| `cron-git-state-monitoring` | Git 同步 | 定时提交 |
-
-## 架构设计
-
-详见 [references/brain-os-architecture.md](references/brain-os-architecture.md)
+**总结**：Brain OS 在 OpenClaw 的 git-backed brain 基础上，**增加了 Hermes Kanban 任务调度层**，使知识管理从"被动存储"变为"主动调度"。
 
 ## 开源许可
 
