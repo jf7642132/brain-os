@@ -72,10 +72,9 @@ Kanban 是 Brain OS 的**调度中心**，所有知识操作都是 kanban 上的
 
 | 任务 | 触发时间 | 作用 |
 |------|----------|------|
-| `nightly-article-integration` | 03:00 | 夜间抓取外部文章并整合 |
-| `nightly-knowledge-flywheel` | 04:00 | 挖掘对话中的可复用模式 |
-| `nightly-knowledge-amplifier` | 05:00 | 跨源知识聚合，构建统一知识图谱 |
-| `nightly-git-sync` | 06:00 | 定时提交变更，保持版本历史 |
+| `article-notes-integration` | 02:00 | 文章整合 |
+| `conversation-knowledge-flywheel` | 03:00 | 对话知识挖掘 |
+| `knowledge-flywheel-amplifier` | 04:00 | 知识聚合 |
 | `daily-observer` | 09:00 | Agent 自检，发现错误并记录经验 |
 
 ### 2. 同步脚本（kanban-sync.py）
@@ -85,7 +84,6 @@ Kanban 是 Brain OS 的**调度中心**，所有知识操作都是 kanban 上的
 - **读取 kanban 任务状态** — 从 `todo-backlog.md` 解析待办事项
 - **执行知识同步** — 将生产者的输出写入 knowledge 目录
 - **更新任务状态** — 同步完成后标记 kanban 任务为"已完成"
-- **版本管理** — 通过 git 提交保持变更历史
 
 ```bash
 # 预览变更
@@ -112,11 +110,11 @@ python kanban-sync.py --commit
 
 | 消费者 | 输入 | 作用 |
 |--------|------|------|
-| 知识检索 | knowledge/04-queries/ | 快速检索知识 |
-| 任务执行 | knowledge/06-context/todo-tracking/ | 执行待办任务 |
-| 决策支持 | knowledge/02-concepts/ | 基于知识做决策 |
-| 技能调用 | knowledge/07-skills/ | 调用自定义技能 |
-| 上下文管理 | knowledge/06-context/ | 管理对话上下文 |
+| 知识检索 | `knowledge/04-queries/` | 快速检索知识 |
+| 任务执行 | `knowledge/06-context/todo-tracking/` | 执行待办任务 |
+| 决策支持 | `knowledge/02-concepts/` | 基于知识做决策 |
+| 技能调用 | `knowledge/07-skills/` | 调用自定义技能 |
+| 上下文管理 | `knowledge/06-context/` | 管理对话上下文 |
 
 ## 运行逻辑
 
@@ -126,19 +124,16 @@ python kanban-sync.py --commit
 23:00 ──► 用户结束当日对话
               │
               ▼
-03:00 ──► chronicle-agent 归档对话
+02:00 ──► article-notes-integration 抓取文章
               │
               ▼
-03:30 ──► article-notes-integration 抓取文章
+03:00 ──► conversation-knowledge-flywheel 挖掘模式
               │
               ▼
-04:00 ──► conversation-knowledge-flywheel 挖掘模式
+04:00 ──► knowledge-flywheel-amplifier 聚合知识
               │
               ▼
-05:00 ──► knowledge-flywheel-amplifier 聚合知识
-              │
-              ▼
-06:00 ──► kanban-sync.py 同步到 kanban + git 提交
+06:00 ──► kanban-sync.py 同步到 kanban
               │
               ▼
 09:00 ──► observer 自检，检查夜间流水线状态
@@ -174,8 +169,8 @@ knowledge/
 │
 ├── 01-entities/               # Layer 1: 实体提取
 │   ├── people/                # 人物信息
-│   ├── projects/              # 项目信息
-│   └── companies/             # 公司信息
+│   ├── companies/             # 公司信息
+│   └── projects/              # 项目信息
 │
 ├── 02-concepts/               # Layer 2: 概念体系
 │   ├── ai-ops/                # AI 运维概念
@@ -183,43 +178,43 @@ knowledge/
 │   └── <your-domain>/         # 自定义领域
 │
 ├── 03-comparisons/            # Layer 2: 对比分析
-├── 04-queries/                # Layer 2: 知识图谱/查询模板
+├── 04-queries/                # Layer 2: 查询模板
 ├── 05-summaries/              # Layer 2: 总结归档
 │
 ├── 06-context/                # Layer 3: 上下文管理
-│   └── todo-tracking/         # 待办跟踪 (kanban 数据源)
+│   └── todo-tracking/         # 待办跟踪
 │
 ├── 07-skills/                 # Layer 3: 技能库
 │   └── <skill-name>/          # 自定义技能
 │
 ├── 08-references/             # Layer 3: 参考资料
 │
-└── 09-personal-ops/           # 个人运营数据
+└── 09-personal-ops/           # 个人运营（不公开）
 ```
 
-## 安装
+## 技能清单
 
-### 方式一：克隆到技能目录（推荐）
+Brain OS 依赖以下 Hermes 内置技能（无需额外安装）：
 
-```bash
-# 克隆技能仓库
-git clone https://github.com/jf7642132/brain-os.git ~/.hermes/skills/brain-os
+| 技能 | 定位 | 触发方式 |
+|------|------|----------|
+| `chronicle-agent` | 对话记录归档 | 夜间定时 |
+| `observer` | Agent 自检 | 每次任务完成后 |
+| `llm-wiki` | 知识结构化 | 手动/定时 |
+| `article-notes-integration` | 外部文章整合 | 夜间定时 (02:00) |
+| `conversation-knowledge-flywheel` | 对话模式挖掘 | 夜间定时 (03:00) |
+| `knowledge-flywheel-amplifier` | 跨源知识聚合 | 夜间定时 (04:00) |
 
-# 验证安装
-hermes skills list | grep brain-os
+## 配置
 
-# 查看安装说明
-hermes skills view brain-os
-```
+### 环境变量
 
-### 方式二：直接复制
-
-```bash
-# 复制技能到本地
-cp -r ~/.hermes/skills/brain-os/* ~/.hermes/skills/
-```
-
-## 使用
+| 变量 | 说明 | 默认值 |
+|------|------|--------|
+| `HERMES_ROOT` | Hermes 根目录 | `~/.hermes` |
+| `HERMES_KNOWLEDGE` | 知识库路径 | `$HERMES_ROOT/knowledge` |
+| `HERMES_TODO_PATH` | 待办追踪路径 | `$HERMES_KNOWLEDGE/06-context/todo-tracking/todo-backlog.md` |
+| `BRAINO_GIT_REPO` | Git 仓库路径 | `$HERMES_ROOT/brain-os` |
 
 ### 导入定时任务
 
@@ -237,7 +232,9 @@ hermes cron import ~/.hermes/brain-os-jobs.json
 hermes cron list
 ```
 
-### 同步 kanban
+## 使用
+
+### 同步 kanban 到 git
 
 ```bash
 # 预览变更
@@ -250,7 +247,7 @@ python ~/.hermes/skills/brain-os/references/kanban-sync.py --commit
 ### 手动运行技能
 
 ```bash
-# 夜间文章整合
+# 文章整合
 hermes skills run article-notes-integration
 
 # 对话模式挖掘
@@ -260,36 +257,54 @@ hermes skills run conversation-knowledge-flywheel
 hermes skills run observer
 ```
 
-### 查看知识状态
+### 查看 kanban 状态
 
 ```bash
-# 查看待办任务
+# 列出所有任务
 hermes kanban list
 
-# 查看任务详情
-hermes kanban status <task-id>
+# 运行指定任务
+hermes kanban run <task-name>
 
-# 标记任务完成
-hermes kanban done <task-id>
+# 查看任务状态
+hermes kanban status
 ```
 
 ## 与 OpenClaw 的区别
 
 | 特性 | OpenClaw | Brain OS |
 |------|----------|----------|
-| git-backed brain | ✅ | ✅ |
-| **Kanban 任务调度** | ❌ | ✅ **核心创新** |
+| Git 存储 | ✅ | ✅ |
+| **Kanban 调度** | ❌ | ✅ **核心创新** |
 | **生产者-消费者架构** | ❌ | ✅ **核心创新** |
-| **同步脚本管理进化** | ❌ | ✅ **核心创新** |
+| **同步脚本连接两端** | ❌ | ✅ **核心创新** |
 | 夜间批处理 | ❌ | ✅ |
-| 多 Agent 共享 | ✅ | ✅ |
 
-## 核心创新总结
+Brain OS 在 OpenClaw 的 git-backed brain 基础上，增加了：
 
 1. **Kanban 作为大脑中枢** — 所有知识操作都是可追踪的任务
 2. **生产者-消费者架构** — 明确分工，知识自动生产和消费
 3. **同步脚本连接两端** — kanban-sync.py 实现任务状态与知识存储的同步
-4. **夜间批处理 + 实时交互** — 两种模式互补，知识持续进化
+
+## 快速安装
+
+```bash
+# 克隆技能到技能目录
+git clone https://github.com/jf7642132/brain-os.git ~/.hermes/skills/brain-os
+
+# 验证安装
+hermes skills list | grep brain-os
+
+# 查看技能详情
+hermes skills view brain-os
+
+# 导入定时任务
+hermes cron import ~/.hermes/skills/brain-os/templates/jobs-template.json
+```
+
+## 架构设计
+
+详见 [references/brain-os-architecture.md](references/brain-os-architecture.md)
 
 ## 开源许可
 
