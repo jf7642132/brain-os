@@ -1,0 +1,52 @@
+{
+  "version": "1.0",
+  "description": "Brain OS 定时任务配置模板",
+  "tasks": [
+    {
+      "name": "nightly-article-integration",
+      "schedule": "0 3 * * *",
+      "description": "夜间抓取外部文章并整合到知识库",
+      "command": "hermes skills run article-notes-integration",
+      "enabled": true
+    },
+    {
+      "name": "nightly-knowledge-flywheel",
+      "schedule": "0 4 * * *",
+      "description": "挖掘对话中的可复用模式",
+      "command": "hermes skills run conversation-knowledge-flywheel",
+      "enabled": true
+    },
+    {
+      "name": "nightly-knowledge-amplifier",
+      "schedule": "0 5 * * *",
+      "description": "跨源知识聚合，构建统一知识图谱",
+      "command": "hermes skills run knowledge-flywheel-amplifier",
+      "enabled": true
+    },
+    {
+      "name": "nightly-git-sync",
+      "schedule": "0 6 * * *",
+      "description": "定时提交 git 变更，保持版本历史",
+      "command": "cd ~/.hermes && git add -A && git commit -m 'nightly sync' || true && git push",
+      "enabled": true
+    },
+    {
+      "name": "daily-observer",
+      "schedule": "0 9 * * *",
+      "description": "Agent 自检，发现错误并记录经验",
+      "command": "hermes skills run observer",
+      "enabled": true
+    }
+  ],
+  "environment": {
+    "HERMES_ROOT": "~/.hermes",
+    "HERMES_KNOWLEDGE": "~/.hermes/knowledge",
+    "BRAINO_GIT_REPO": "~/.hermes/brain-os"
+  },
+  "notes": [
+    "复制此文件为 jobs.json 后，根据需要调整 schedule 和 command",
+    "导入: hermes cron import jobs.json",
+    "查看: hermes cron list",
+    "手动运行: hermes cron run <task-name>"
+  ]
+}

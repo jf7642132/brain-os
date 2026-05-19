@@ -1,0 +1,29 @@
+# Brain OS Git 忽略规则
+
+# 个人数据（不公开）
+knowledge/00-raw/transcripts/
+knowledge/01-entities/projects/
+knowledge/09-personal-ops/
+
+# 敏感信息
+.env
+*.env.local
+secrets.json
+credentials.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 临时文件
+*.tmp
+*.bak
+*.log
