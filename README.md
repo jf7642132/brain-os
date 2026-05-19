@@ -116,7 +116,6 @@ python kanban-sync.py --commit
 | 消费者 | 输入 | 作用 |
 |--------|------|------|
 | 知识检索 | `knowledge/04-queries/` | 快速检索知识 |
-| 任务执行 | `knowledge/06-context/todo-tracking/` | 执行待办任务 |
 | 决策支持 | `knowledge/02-concepts/` | 基于知识做决策 |
 | 技能调用 | `knowledge/07-skills/` | 调用自定义技能 |
 | 上下文管理 | `knowledge/06-context/` | 管理对话上下文 |
