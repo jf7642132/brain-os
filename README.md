@@ -8,7 +8,23 @@ Brain OS **不是独立系统**，而是一套**可组合的技能集合**，灵
 
 **核心创新**：以 **`todo-backlog.md` 为统一任务入口**，通过 **生产者-消费者架构** 实现知识的自动生产、管理和进化，Kanban 作为 todo 的可视化界面提供双向同步。
 
-### 核心架构
+## 快速安装
+
+```bash
+# 克隆技能到技能目录
+git clone https://github.com/jf7642132/brain-os.git ~/.hermes/skills/brain-os
+
+# 验证安装
+hermes skills list | grep brain-os
+
+# 查看技能详情
+hermes skills view brain-os
+
+# 导入定时任务
+hermes cron import ~/.hermes/skills/brain-os/templates/jobs-template.json
+```
+
+## 核心架构
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -224,7 +240,7 @@ cp ~/.hermes/skills/brain-os/templates/jobs-template.json ~/.hermes/brain-os-job
 vim ~/.hermes/brain-os-jobs.json
 
 # 导入到 hermes cron
-hermes cron import ~/.hermes/brain-os-jobs.json
+hermes cron import ~/.hermes/skills/brain-os/templates/jobs-template.json
 
 # 查看已导入任务
 hermes cron list
@@ -278,27 +294,11 @@ hermes kanban status
 | **Kanban 双向同步** | ❌ | ✅ **核心创新** |
 | 夜间批处理 | ❌ | ✅ |
 
-Brain OS 在 OpenClaw 的 git-backed brain 基础上，增加了：
+Brain OS 在 OpenClaw 的 git 驱动持久化设计基础上，增加了：
 
 1. **todo-backlog.md 作为统一任务入口** — 所有生产者写入，所有消费者读取
 2. **生产者-消费者架构** — 明确分工，知识自动生产和消费
 3. **Kanban 双向同步** — todo 与 Kanban 卡片状态实时同步
-
-## 快速安装
-
-```bash
-# 克隆技能到技能目录
-git clone https://github.com/jf7642132/brain-os.git ~/.hermes/skills/brain-os
-
-# 验证安装
-hermes skills list | grep brain-os
-
-# 查看技能详情
-hermes skills view brain-os
-
-# 导入定时任务
-hermes cron import ~/.hermes/skills/brain-os/templates/jobs-template.json
-```
 
 ## 架构设计
 
