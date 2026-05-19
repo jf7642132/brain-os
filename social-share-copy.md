@@ -6,7 +6,7 @@
 
 今天把 Brain OS 开源了 🎉
 
-一套基于 Hermes Agent 的技能体系，灵感来自 OpenClaw 的 git-backed brain 设计。
+一套基于 Hermes Agent 的技能体系，灵感来自 OpenClaw 的 git 驱动持久化设计。
 
 核心就三件事：
 - todo-backlog.md 作为统一任务入口
@@ -41,7 +41,7 @@ MIT 协议，欢迎 fork、star、提 issue。
 
 ## 版本三：技术版（适合吸引开发者）
 
-Brain OS 开源了 —— 一套基于 Hermes Agent 的 git-backed brain 技能体系。
+Brain OS 开源了 —— 一套基于 Hermes Agent 的 git 驱动持久化技能体系。
 
 **核心架构：**
 ```

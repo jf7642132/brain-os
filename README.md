@@ -1,10 +1,10 @@
 # Brain OS
 
-> 一套基于 OpenClaw git-backed brain 设计、结合 Hermes Kanban 任务管理的技能体系
+> 一套基于 OpenClaw git 驱动持久化设计、结合 Hermes Kanban 任务管理的技能体系
 
 ## 这是什么
 
-Brain OS **不是独立系统**，而是一套**可组合的技能集合**，灵感来源于 [OpenClaw](https://github.com/openclaw/openclaw) 的 git-backed brain 设计。
+Brain OS **不是独立系统**，而是一套**可组合的技能集合**，灵感来源于 OpenClaw 的**git 驱动持久化设计**（将 agent 的 memory、config、workspace 存储在 git 仓库中实现持久化和多实例共享）。
 
 **核心创新**：以 **`todo-backlog.md` 为统一任务入口**，通过 **生产者-消费者架构** 实现知识的自动生产、管理和进化，Kanban 作为 todo 的可视化界面提供双向同步。
 
@@ -272,7 +272,7 @@ hermes kanban status
 
 | 特性 | OpenClaw | Brain OS |
 |------|----------|----------|
-| Git 存储 | ✅ | ✅ |
+| Git 持久化 | ✅ | ✅ |
 | **todo-backlog.md 统一入口** | ❌ | ✅ **核心创新** |
 | **生产者-消费者架构** | ❌ | ✅ **核心创新** |
 | **Kanban 双向同步** | ❌ | ✅ **核心创新** |
@@ -310,4 +310,4 @@ MIT License
 
 ## 致谢
 
-灵感来源于 [OpenClaw](https://github.com/openclaw/openclaw) 的 git-backed brain 设计。
+灵感来源于 OpenClaw 的**git 驱动持久化设计**（将 agent 的 memory、config、workspace 存储在 git 仓库中）。
