@@ -10,6 +10,14 @@ Brain OS **不是独立系统**，而是一套**可组合的技能集合**，灵
 
 ## 快速安装
 
+### 方式一：让 Hermes 自动安装（推荐）
+
+直接把仓库地址发给 Hermes，让它自己完成克隆、安装、导入定时任务：
+
+> "安装 brain-os 技能：https://github.com/jf7642132/brain-os"
+
+### 方式二：手动安装
+
 ```bash
 # 克隆技能到技能目录
 git clone https://github.com/jf7642132/brain-os.git ~/.hermes/skills/brain-os
