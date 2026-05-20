@@ -240,20 +240,86 @@ Brain OS 依赖以下自定义技能，需安装到技能目录：
 | `HERMES_TODO_PATH` | 待办追踪路径 | `$HERMES_KNOWLEDGE/06-context/todo-tracking/todo-backlog.md` |
 | `BRAINO_GIT_REPO` | Git 仓库路径 | `$HERMES_ROOT/brain-os` |
 
-### 导入定时任务
+### 导入定时任务（jobs-template.json）
+
+`templates/jobs-template.json` 是 **脱敏版定时任务模板**，包含 19 个 Brain OS 核心任务的配置。导入前需要替换占位符：
+
+#### 步骤 1：复制模板
 
 ```bash
-# 复制任务模板
 cp ~/.hermes/skills/brain-os/templates/jobs-template.json ~/.hermes/brain-os-jobs.json
+```
 
-# 编辑配置（根据需要调整 schedule）
-vim ~/.hermes/brain-os-jobs.json
+#### 步骤 2：替换占位符
 
+打开 `~/.hermes/brain-os-jobs.json`，替换以下占位符：
+
+| 占位符 | 替换为 | 说明 |
+|--------|--------|------|
+| `<YOUR_WEIXIN_CHAT_ID>` | `o9cq802KK_bHFh7CbnaLfVpn24GY@im.wechat` | 微信聊天 ID |
+| `<YOUR_TELEGRAM_CHAT_ID>` | `8377601886` | Telegram 聊天 ID |
+| `<YOUR_CHAT_ID>` | `1655395337` | 其他聊天 ID |
+| `<KNOWLEDGE_DIR>` | `/root/.hermes/knowledge` | 知识库路径 |
+| `<PAPERCLIP_URL>` | `http://192.168.9.21:3100` | Paperclip 服务地址 |
+
+#### 步骤 3：导入任务
+
+```bash
 # 导入到 hermes cron
-hermes cron import ~/.hermes/skills/brain-os/templates/jobs-template.json
+hermes cron import ~/.hermes/brain-os-jobs.json
 
 # 查看已导入任务
 hermes cron list
+
+# 启用/禁用任务
+hermes cron enable <task-id>
+hermes cron disable <task-id>
+```
+
+#### 步骤 4：验证任务
+
+```bash
+# 查看任务详情
+hermes cron show <task-id>
+
+# 手动触发任务测试
+hermes cron run <task-id>
+```
+
+#### 任务列表（19 个）
+
+| 任务名称 | 调度 | 作用 |
+|----------|------|------|
+| Daily full backup | `0 2 * * *` | 每日备份 .hermes |
+| 外贸风险预警每日推送 | `0 9 * * *` | 生成外贸风险报告 |
+| Brain OS 每日早报 | `0 7 * * *` | 生成今日待办简报 |
+| Brain OS 午间待办提醒 | `0 14 * * *` | 午间待办提醒 |
+| Brain OS 晚间待办提醒 | `30 20 * * *` | 晚间待办提醒 |
+| Brain OS 史官记录 | `every 120m` | 对话记录归档 |
+| Brain OS 自动提交巡检 | `0 */1 * * *` | 自动提交知识变更 |
+| Brain OS 夜间文章整合 | `0 2 * * *` | 文章整合流水线 |
+| Brain OS 夜间对话挖掘 | `0 3 * * *` | 对话模式挖掘 |
+| Brain OS 夜间知识放大器 | `0 4 * * *` | 跨源知识聚合 |
+| Brain OS 每日观察者自检 | `30 0 * * *` | Agent 健康监控 |
+| Brain OS 每周计划 | `0 6 * * 1` | 周计划生成 |
+| Brain OS 月度总结 | `0 9 1 * *` | 月度报告生成 |
+| Brain OS 周一知识库 Lint | `0 6 * * 1` | 知识库质量检查 |
+| Brain OS 每周知识库审计 | `0 7 * * 0` | 知识库审计 |
+| 超越微舆 - 每日数据采集 | `0 5 * * *` | 舆情数据采集 |
+
+> **注意**：部分任务（如外贸风险预警）依赖 Paperclip 系统，导入前请确保相关服务已配置。
+
+### 自定义调度
+
+编辑 `~/.hermes/brain-os-jobs.json` 中的 `schedule.expr` 字段来自定义调度时间：
+
+```json
+{
+  "schedule": {
+    "kind": "cron",
+    "expr": "0 8 * * *"  // 改为每天 8 点执行
+  }
+}
 ```
 
 ## 使用
@@ -321,3 +387,13 @@ MIT License
 ## 致谢
 
 灵感来源于 OpenClaw 的**git 驱动持久化设计**（将 agent 的 memory、config、workspace 存储在 git 仓库中）。
+
+## 更新日志
+
+### 2026-05-20
+
+- 添加 `templates/jobs-template.json` 脱敏版定时任务模板
+- 添加 54 个技能到开源仓库
+- 添加 23 个实用脚本
+- 更新 `.gitignore` 排除敏感文件
+- 所有 chat IDs 替换为占位符
