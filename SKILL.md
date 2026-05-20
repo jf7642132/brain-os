@@ -1,6 +1,6 @@
 # Brain OS
 
-> 一套基于 OpenClaw git-backed brain 设计的 Hermes 技能体系，实现 Agent 的 git 驱动知识管理。
+> 一套基于 OpenClaw git 驱动持久化设计的 Hermes 技能体系，实现 Agent 的 git 驱动知识管理。
 
 ## 快速安装
 
@@ -44,7 +44,7 @@ hermes cron list
 
 ## 核心技能
 
-Brain OS 依赖以下 Hermes 内置技能（无需额外安装）：
+Brain OS 依赖以下自定义技能，需安装到技能目录：
 
 | 技能 | 作用 |
 |------|------|
@@ -83,7 +83,7 @@ hermes skills run observer
 
 ## 架构
 
-灵感来源于 [OpenClaw](https://github.com/openclaw/openclaw) 的 git-backed brain 设计：
+灵感来源于 [OpenClaw](https://github.com/openclaw/openclaw) 的 git 驱动持久化设计：
 
 ```
 用户对话 → chronicle-agent 记录
