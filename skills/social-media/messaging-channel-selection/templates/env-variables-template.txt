@@ -1,0 +1,49 @@
+# Messaging Platform Environment Variables Template
+# Copy to ~/.hermes/.env and fill in your credentials
+
+# =============================================================================
+# WECHAT (Weixin) - Current Primary
+# =============================================================================
+WEIXIN_HOME_CHANNEL=<YOUR_WEIXIN_CHAT_ID>
+WEIXIN_DM_POLICY=allowlist
+WEIXIN_ALLOWED_USERS=your_wechat_user_id
+
+# =============================================================================
+# DINGTALK - Recommended for Long Content (20k char limit)
+# =============================================================================
+DINGTALK_CLIENT_ID=your_dingtalk_client_id
+DINGTALK_CLIENT_SECRET=your_dingtalk_client_secret
+
+# =============================================================================
+# FEISHU - Good Balance (8k char limit)
+# =============================================================================
+FEISHU_APP_ID=your_feishu_app_id
+FEISHU_APP_SECRET=your_feishu_app_secret
+FEISHU_ALLOWED_USERS=your_feishu_user_id
+
+# =============================================================================
+# TELEGRAM - Best Experience (needs VPN in China)
+# =============================================================================
+TELEGRAM_BOT_TOKEN=your_telegram_bot_token
+TELEGRAM_HOME_CHANNEL=your_telegram_chat_id
+
+# =============================================================================
+# DISCORD - Tech Discussions (needs VPN)
+# =============================================================================
+DISCORD_BOT_TOKEN=your_discord_bot_token
+DISCORD_GUILD_ID=your_discord_guild_id
+
+# =============================================================================
+# SLACK - Enterprise
+# =============================================================================
+SLACK_BOT_TOKEN=xoxb-your-slack-bot-token
+SLACK_SIGNING_SECRET=your_slack_signing_secret
+
+# =============================================================================
+# GLOBAL MESSAGING SETTINGS
+# =============================================================================
+# Enable human-like delays between message chunks
+HUMANIZE_MESSAGES=true
+
+# Gateway-wide user policy
+GATEWAY_ALLOW_ALL_USERS=false

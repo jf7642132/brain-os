@@ -27,3 +27,21 @@ __pycache__/
 *.tmp
 *.bak
 *.log
+# Paperclip skills with credentials - exclude from open-source
+skills/devops/paperclip-data-reconstruction/
+skills/devops/paperclip-local-deploy/
+skills/devops/paperclip-docker-deploy/
+skills/devops/paperclip-task-execution-troubleshooting/
+skills/paperclip/paperclip-api-keys/
+skills/paperclip/paperclip-heartbeat-config/
+skills/paperclip/paperclip-company-management/
+skills/paperclip/paperclip-issue-management/
+skills/mlops/paperclip-basics/
+
+# Runtime data - exclude from open-source
+cron/
+knowledge/
+sessions/
+logs/
+state.db
+response_store.db

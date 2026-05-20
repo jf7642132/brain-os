@@ -1,0 +1,61 @@
+# Hermes Messaging Platform Configuration Template
+# Copy to ~/.hermes/config.yaml and customize
+
+platforms:
+  # WeChat (current primary)
+  weixin:
+    enabled: true
+    extra:
+      # No additional config needed for basic WeChat DM
+      
+  # DingTalk (recommended for long content - 20k char limit)
+  dingtalk:
+    enabled: false  # Set to true when ready
+    extra:
+      client_id: "${DINGTALK_CLIENT_ID}"
+      client_secret: "${DINGTALK_CLIENT_SECRET}"
+      
+  # Feishu (good balance - 8k char limit)
+  feishu:
+    enabled: false  # Set to true when ready
+    extra:
+      app_id: "${FEISHU_APP_ID}"
+      app_secret: "${FEISHU_APP_SECRET}"
+      
+  # Telegram (best experience but needs VPN)
+  telegram:
+    enabled: false  # Set to true when ready
+    extra:
+      bot_token: "${TELEGRAM_BOT_TOKEN}"
+      home_channel: "${TELEGRAM_HOME_CHANNEL}"
+      
+  # Discord (tech discussions)
+  discord:
+    enabled: false
+    extra:
+      bot_token: "${DISCORD_BOT_TOKEN}"
+      guild_id: "${DISCORD_GUILD_ID}"
+      
+  # Slack (enterprise)
+  slack:
+    enabled: false
+    extra:
+      bot_token: "${SLACK_BOT_TOKEN}"
+      signing_secret: "${SLACK_SIGNING_SECRET}"
+
+# Global messaging settings
+messaging:
+  # Enable human-like delays between message chunks
+  humanize_messages: true
+  
+  # Default segmentation strategy
+  segmentation:
+    weixin:
+      chunk_size: 2000
+      add_continuation_markers: true
+      
+    dingtalk:
+      chunk_size: 20000  # Auto-segmented by platform
+      
+    feishu:
+      chunk_size: 4000   # Auto-segmented by platform
