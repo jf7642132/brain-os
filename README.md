@@ -1,10 +1,10 @@
 # Brain OS
 
-> 一套基于 OpenClaw git 驱动持久化设计、结合 Hermes Kanban 任务管理的技能体系
+> 一套基于 Obsidian-Brain-OS git 驱动持久化设计、结合 Hermes Kanban 任务管理的技能体系
 
 ## 这是什么
 
-Brain OS **不是独立系统**，而是一套**可组合的技能集合**，灵感来源于 OpenClaw 的**git 驱动持久化设计**（将 agent 的 memory、config、workspace 存储在 git 仓库中实现持久化和多实例共享）。
+Brain OS **不是独立系统**，而是一套**可组合的技能集合**，灵感来源于 [Obsidian-Brain-OS](https://github.com/FairladyZ625/Obsidian-Brain-OS) 的**git 驱动持久化设计**（将 agent 的 memory、config、workspace 存储在 git 仓库中实现持久化和多实例共享）。
 
 **核心创新**：以 **`todo-backlog.md` 为统一任务入口**，通过 **生产者-消费者架构** 实现知识的自动生产、管理和进化，Kanban 作为 todo 的可视化界面提供双向同步。
 
@@ -353,9 +353,9 @@ hermes kanban list
 hermes kanban status
 ```
 
-## 与 OpenClaw 的区别
+## 与 Obsidian-Brain-OS 的区别
 
-| 特性 | OpenClaw | Brain OS |
+| 特性 | Obsidian-Brain-OS | Brain OS |
 |------|----------|----------|
 | Git 持久化 | ✅ | ✅ |
 | **todo-backlog.md 统一入口** | ❌ | ✅ **核心创新** |
@@ -363,7 +363,7 @@ hermes kanban status
 | **Kanban 双向同步** | ❌ | ✅ **核心创新** |
 | 夜间批处理 | ❌ | ✅ |
 
-Brain OS 在 OpenClaw 的 git 驱动持久化设计基础上，增加了：
+Brain OS 在 Obsidian-Brain-OS 的 git 驱动持久化设计基础上，增加了：
 
 1. **todo-backlog.md 作为统一任务入口** — 所有生产者写入，所有消费者读取
 2. **生产者-消费者架构** — 明确分工，知识自动生产和消费
@@ -379,7 +379,7 @@ MIT License
 
 ## 致谢
 
-灵感来源于 OpenClaw 的**git 驱动持久化设计**（将 agent 的 memory、config、workspace 存储在 git 仓库中）。
+灵感来源于 [Obsidian-Brain-OS](https://github.com/FairladyZ625/Obsidian-Brain-OS) 的**git 驱动持久化设计**（将 agent 的 memory、config、workspace 存储在 git 仓库中）。
 
 ## 更新日志
 
