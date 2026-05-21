@@ -108,7 +108,7 @@ python kanban-sync.py --dry-run
 python kanban-sync.py --commit
 ```
 
-### 3. 生产者（8 个）
+### 3. 生产者（6 个）
 
 生产者负责发现问题并写入 `todo-backlog.md`：
 
@@ -116,8 +116,6 @@ python kanban-sync.py --commit
 |--------|------|-----------|
 | 史官记录 (chronicle-agent) | 对话归档 | 发现待办 → 写入 todo |
 | 观察者自检 (observer) | 错误记录/经验 | 发现问题 → 写入 todo |
-| 知识库审计 | 知识质量报告 | 发现问题 → 写入 todo |
-| 自动提交巡检 | Git 状态报告 | 发现问题 → 写入 todo |
 | 夜间文章抓取 (article-notes-integration) | 外部文章笔记 | 发现待办 → 写入 todo |
 | 对话知识挖掘 (conversation-knowledge-flywheel) | 可复用模式 | 发现待办 → 写入 todo |
 | 跨源知识聚合 (knowledge-flywheel-amplifier) | 统一知识图谱 | 发现待办 → 写入 todo |
@@ -222,7 +220,6 @@ Brain OS 依赖以下自定义技能，需安装到技能目录：
 |------|------|----------|
 | `chronicle-agent` | 对话记录归档 | 夜间定时 |
 | `observer` | Agent 自检 | 每次任务完成后 |
-| `llm-wiki` | 知识结构化 | 手动/定时 |
 | `article-notes-integration` | 外部文章整合 | 夜间定时 (02:00) |
 | `conversation-knowledge-flywheel` | 对话模式挖掘 | 夜间定时 (03:00) |
 | `knowledge-flywheel-amplifier` | 跨源知识聚合 | 夜间定时 (04:00) |
@@ -291,7 +288,6 @@ hermes cron run <task-id>
 | 任务名称 | 调度 | 作用 |
 |----------|------|------|
 | Daily full backup | `0 2 * * *` | 每日备份 .hermes |
-| 外贸风险预警每日推送 | `0 9 * * *` | 生成外贸风险报告 |
 | Brain OS 每日早报 | `0 7 * * *` | 生成今日待办简报 |
 | Brain OS 午间待办提醒 | `0 14 * * *` | 午间待办提醒 |
 | Brain OS 晚间待办提醒 | `30 20 * * *` | 晚间待办提醒 |
@@ -305,9 +301,6 @@ hermes cron run <task-id>
 | Brain OS 月度总结 | `0 9 1 * *` | 月度报告生成 |
 | Brain OS 周一知识库 Lint | `0 6 * * 1` | 知识库质量检查 |
 | Brain OS 每周知识库审计 | `0 7 * * 0` | 知识库审计 |
-| 超越微舆 - 每日数据采集 | `0 5 * * *` | 舆情数据采集 |
-
-> **注意**：部分任务（如外贸风险预警）依赖 Paperclip 系统，导入前请确保相关服务已配置。
 
 ### 自定义调度
 
@@ -389,6 +382,13 @@ MIT License
 灵感来源于 OpenClaw 的**git 驱动持久化设计**（将 agent 的 memory、config、workspace 存储在 git 仓库中）。
 
 ## 更新日志
+
+### 2026-05-21
+
+- 移除通用生产力工具（airtable, notion, powerpoint 等 10 个）
+- 更新 SKILL.md 和 README.md 依赖说明
+- 移除外贸风险相关任务（非 Brain OS 核心）
+- 仓库精简至 97 个文件
 
 ### 2026-05-20
 
