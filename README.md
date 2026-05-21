@@ -368,15 +368,15 @@ MIT License
 
 ### 2026-05-21
 
-- 移除通用生产力工具（airtable, notion, powerpoint 等 10 个）
-- 更新 SKILL.md 和 README.md 依赖说明
-- 移除非 Brain OS 任务（业务风险、数据采集等）
-- 仓库精简至 97 个文件
+- 移除通用生产力工具
+- 更新依赖说明
+- 移除非核心任务
+- 仓库精简
 
 ### 2026-05-20
 
 - 添加 `templates/jobs-template.json` 脱敏版定时任务模板
-- 添加 54 个技能到开源仓库
-- 添加 23 个实用脚本
+- 添加技能到开源仓库
+- 添加实用脚本
 - 更新 `.gitignore` 排除敏感文件
 - 所有 chat IDs 替换为占位符
