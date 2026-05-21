@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """检查 todo 中待创建的待办"""
+import os
 import sys
-sys.path.insert(0, '/root/.hermes/scripts')
+sys.path.insert(0, os.environ.get('HERMES_SCRIPTS_DIR', os.path.expanduser('~/.hermes/scripts')))
 from kanban_sync import read_todo_backlog, create_kanban_task, update_todo_kanban_id
 
 items = read_todo_backlog()

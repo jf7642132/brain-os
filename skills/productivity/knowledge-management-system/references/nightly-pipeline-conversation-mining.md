@@ -32,7 +32,7 @@ Extract crystallizable knowledge:
 
 Write to nightly digest:
 ```
-/root/.hermes/knowledge/04-知识库/01-阅读消化/04-摘要汇总/nightly-digest-YYYY-MM-DD.md
+<KNOWLEDGE_DIR>/04-知识库/01-阅读消化/04-摘要汇总/nightly-digest-YYYY-MM-DD.md
 ```
 
 ### Step 4: Knowledge Graph Update

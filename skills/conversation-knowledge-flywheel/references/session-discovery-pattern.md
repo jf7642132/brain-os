@@ -18,7 +18,7 @@ In cron job context, `session_search` is unreliable for finding user sessions:
 import os
 from datetime import datetime, timedelta
 
-sessions_dir = "/root/.hermes/sessions/"
+sessions_dir = "<HERMES_SESSIONS_DIR>/"
 now = datetime.now()
 yesterday = now - timedelta(days=1)
 
@@ -41,7 +41,7 @@ non_cron_files.sort(key=lambda x: x[1], reverse=True)
 ```python
 import sqlite3
 
-state_db = "/root/.hermes/state.db"
+state_db = "<HERMES_STATE_DB>"
 conn = sqlite3.connect(state_db)
 cursor = conn.cursor()
 

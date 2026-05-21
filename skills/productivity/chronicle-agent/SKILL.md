@@ -38,7 +38,7 @@ This returns the most recent sessions with platform, timestamp, and summary.
 
 **⚠️ CRITICAL**: `session_search` in cron context returns only cron sessions. User-initiated sessions (Telegram, WeChat, CLI, API server) are invisible to it. **Do not use `session_search` as the primary recall mechanism.** Use SQLite query on `state.db` as the primary method.
 
-**⚠️ CRITICAL**: Session files in `/root/.hermes/sessions/` are **archived/historical** (weeks/months old), NOT recent sessions. Recent sessions are stored only in `state.db`. See `references/session-storage-behavior.md` for details.
+**⚠️ CRITICAL**: Session files in `<HERMES_SESSIONS_DIR>/` are **archived/historical** (weeks/months old), NOT recent sessions. Recent sessions are stored only in `state.db`. See `references/session-storage-behavior.md` for details.
 
 ### Step 2: Identify user-initiated sessions in the time window
 
@@ -61,7 +61,7 @@ Query `state.db` directly for sessions whose `started_at` falls within the windo
 
 ```python
 import sqlite3
-conn = sqlite3.connect('/root/.hermes/state.db')
+conn = sqlite3.connect('<HERMES_STATE_DB>')
 cur = conn.cursor()
 cur.execute("""
     SELECT id, source, model, started_at, ended_at, message_count, user_id, title
@@ -113,7 +113,7 @@ for sid in sorted(all_session_ids):
 
 **⚠️ CRITICAL UPDATE (2026-05-09)**: When scanning for sessions, exclude `source='cron'` sessions that are system-generated automation tasks. Only `cli`, `telegram`, `weixin`, `discord`, `whatsapp`, and `api_server` represent user-initiated interactions. Cron sessions should be treated as noise unless they produced meaningful output (rare).
 
-**⚠️ CRITICAL UPDATE (2026-05-18)**: Session files in `/root/.hermes/sessions/` are **archived/historical** (weeks/months old), NOT recent sessions. Do NOT use session files as the primary method for recent scans. Use `state.db` for all recent time-window queries. Session files should only be used as fallback for historical context or when `state.db` is unavailable.
+**⚠️ CRITICAL UPDATE (2026-05-18)**: Session files in `<HERMES_SESSIONS_DIR>/` are **archived/historical** (weeks/months old), NOT recent sessions. Do NOT use session files as the primary method for recent scans. Use `state.db` for all recent time-window queries. Session files should only be used as fallback for historical context or when `state.db` is unavailable.
 
 **⚠️ CRITICAL: Session files are `.jsonl` (JSON Lines) format, NOT `.json`. Each line is a separate message object.**
 
@@ -122,7 +122,7 @@ for sid in sorted(all_session_ids):
 from pathlib import Path
 import json
 
-sessions_dir = Path("/root/.hermes/sessions")
+sessions_dir = Path("<HERMES_SESSIONS_DIR>")
 for f in sessions_dir.glob("*.jsonl"):
     with open(f, 'r', encoding='utf-8') as fp:
         for line_num, line in enumerate(fp, 1):
@@ -141,8 +141,8 @@ for f in sessions_dir.glob("*.jsonl"):
 ### Step 3: Extract full message content via SQLite (primary method)
 
 **Critical**: `session_search()` returns session metadata (IDs, timestamps, summaries) but NOT actual message content. Content is stored in:
-1. **Primary**: `/root/.hermes/state.db` SQLite database (`messages` table)
-2. **Secondary**: `/root/.hermes/sessions/session_{session_id}.json` files (only if they exist)
+1. **Primary**: `<HERMES_STATE_DB>` SQLite database (`messages` table)
+2. **Secondary**: `<HERMES_SESSIONS_DIR>/session_{session_id}.json` files (only if they exist)
 
 Use `execute_code` to query `state.db` directly — this gives you per-message content AND per-message timestamps:
 
@@ -151,7 +151,7 @@ import sqlite3, json
 from datetime import datetime, timezone, timedelta
 
 tz = timezone(timedelta(hours=8))
-conn = sqlite3.connect('/root/.hermes/state.db')
+conn = sqlite3.connect('<HERMES_STATE_DB>')
 cur = conn.cursor()
 
 # For each session_id found in Step 2:
@@ -260,11 +260,11 @@ def is_substantive(content, role):
 
 ## Pitfalls
 
-1. **Use direct file scan, not session_search**: In cron context, `session_search` returns only cron sessions. Direct file scan of `/root/.hermes/sessions/` by mtime is the only reliable method. See "Step 1: Direct file scan" above.
+1. **Use direct file scan, not session_search**: In cron context, `session_search` returns only cron sessions. Direct file scan of `<HERMES_SESSIONS_DIR>/` by mtime is the only reliable method. See "Step 1: Direct file scan" above.
 
 2. **Session files are `.jsonl` (JSON Lines), NOT `.json`**: Each line is a separate message object. **⚠️ CRITICAL FIX (2026-05-18)**: The SKILL.md frontmatter previously incorrectly stated session files are "standard `.json` format (single JSON object per file, NOT `.jsonl`)" — this was **WRONG**. The actual files are `.jsonl`. Always use `json.loads()` per line, never `read_file` for session files (they are large and contain full system prompts).
 
-3. **⚠️ CRITICAL: Session files are archived, not recent**: The `/root/.hermes/sessions/` directory contains **archived/historical sessions** (weeks/months old), NOT recent sessions. Recent sessions (last 24-48 hours) are stored only in `state.db`. **Always query `state.db` for recent time-window scans**. Session files should only be used as fallback for historical context or when `state.db` is unavailable. See `references/session-storage-behavior.md` for details.
+3. **⚠️ CRITICAL: Session files are archived, not recent**: The `<HERMES_SESSIONS_DIR>/` directory contains **archived/historical sessions** (weeks/months old), NOT recent sessions. Recent sessions (last 24-48 hours) are stored only in `state.db`. **Always query `state.db` for recent time-window scans**. Session files should only be used as fallback for historical context or when `state.db` is unavailable. See `references/session-storage-behavior.md` for details.
 
 4. **Per-message timestamps exist in SQLite**: The `messages.timestamp` column is a Unix timestamp (float). Convert with `datetime.fromtimestamp(ts, tz=tz)`.
 
@@ -296,7 +296,7 @@ def is_substantive(content, role):
 9. **CONTEXT COMPACTION marker**: Assistant responses containing `[CONTEXT COMPACTION — REFERENCE ONLY]` are handoff notes from context compression — do NOT treat these as new content. The real content is in the user messages that follow.
 
 10. **[SILENT] protocol + Empty window handling**: These two rules work together:
-    - **Write the log file** to `/root/.hermes/knowledge/09-personal-ops/05-channel-history/YYYY-MM-DD-HH.md` with a minimal status message explaining the empty window (scan timestamp, window, "无实质性内容" section).
+    - **Write the log file** to `<KNOWLEDGE_DIR>/09-personal-ops/05-channel-history/YYYY-MM-DD-HH.md` with a minimal status message explaining the empty window (scan timestamp, window, "无实质性内容" section).
     - **Commit the log file** to git as normal.
     - **Respond with `[SILENT]`** (exactly this, nothing else) to suppress delivery to the user. The log file exists for record-keeping; the user doesn't need a report when there's nothing to report.
     - **Never combine [SILENT] with content** — either produce a full report (when substantive content exists) or `[SILENT]` (when empty).
@@ -329,9 +329,9 @@ def is_substantive(content, role):
     **Real-world example** from 2026-05-20: A CLI session `20260518_130337_f833b9` started at 13:04 and had user messages at 15:49. The Step 2b sessions query (window 13:52-15:52) did not return it. Only the messages-table timestamp catch-all (`SELECT DISTINCT session_id FROM messages WHERE timestamp >= ? AND timestamp <= ? AND role = 'user'`) found it.
 
 16. **⚠️ CRITICAL: Check if target log file already exists before writing**. The output path uses a fixed hour-based filename (`09-personal-ops/05-channel-history/YYYY-MM-DD-HH.md`). If a file with the same hour already exists (e.g., from a previous scan that ran early or overlapped), overwriting it will DESTROY the previous scan's output.  \
-    **Always check first**: `ls -la /root/.hermes/knowledge/09-personal-ops/05-channel-history/YYYY-MM-DD-HH.md`  \
+    **Always check first**: `ls -la <KNOWLEDGE_DIR>/09-personal-ops/05-channel-history/YYYY-MM-DD-HH.md`  \
     **If it exists**: Use a different hour suffix (e.g., if the 21.md was already written for 21:00-23:00 and your window overlaps to 23:14, write to 23.md instead). Do NOT overwrite.  \
-    **Recovery if you already overwrote**: `cd /root/.hermes/knowledge && git checkout <commit_hash> -- "09-personal-ops/05-channel-history/YYYY-MM-DD-HH.md"` — find the last commit that touched the file with `git log --oneline -- "09-personal-ops/05-channel-history/YYYY-MM-DD-HH.md"`.
+    **Recovery if you already overwrote**: `cd <KNOWLEDGE_DIR> && git checkout <commit_hash> -- "09-personal-ops/05-channel-history/YYYY-MM-DD-HH.md"` — find the last commit that touched the file with `git log --oneline -- "09-personal-ops/05-channel-history/YYYY-MM-DD-HH.md"`.
 
 ## Verification checklist
 
@@ -434,7 +434,7 @@ bug | config | deploy | docs | feature | general | meeting | ops | research | te
 
 **Git 历史恢复**: 如果待办数据被归档/重构，使用 `git log -p` 恢复历史内容：
 ```bash
-cd /root/.hermes/knowledge
+cd <KNOWLEDGE_DIR>
 git log --all -p -- 06-context/todo-tracking/todo-backlog.md
 ```
 
@@ -455,19 +455,19 @@ Prompt template:
 
 输出到：09-personal-ops/05-channel-history/YYYY-MM-DD-HH.md
 
-工作目录：/root/.hermes/knowledge
+工作目录：<KNOWLEDGE_DIR>
 ```
 
 Output path:
 ```
-/root/.hermes/knowledge/09-personal-ops/05-channel-history/YYYY-MM-DD-HH.md
+<KNOWLEDGE_DIR>/09-personal-ops/05-channel-history/YYYY-MM-DD-HH.md
 ```
 
 **⚠️ 目录结构变更 (2026-05-19)**: 输出路径已从 `03-个人运营/05-频道历史` 迁移至 `09-personal-ops/05-channel-history`。历史文件仍保留在原路径，新扫描应写入新路径。
 
 **⚠️ Note**: The nightly digest (conversation mining output) goes to a different location:
 ```
-/root/.hermes/knowledge/04-知识库/01-阅读消化/04-摘要汇总/nightly-digest-YYYY-MM-DD.md
+<KNOWLEDGE_DIR>/04-知识库/01-阅读消化/04-摘要汇总/nightly-digest-YYYY-MM-DD.md
 ```
 
 Format:
@@ -502,7 +502,7 @@ Format:
 ### Step 5: Git commit
 
 ```bash
-cd /root/.hermes/knowledge
+cd <KNOWLEDGE_DIR>
 git add -A
 git commit -m "auto: Chronicle Agent scan YYYY-MM-DD HH:MM"
 ```

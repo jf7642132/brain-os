@@ -2,20 +2,20 @@
 
 ## Summary
 
-On 2026-05-15, the knowledge base directory structure was migrated from `/root/wiki/` to `/root/.hermes/knowledge/`. This incident document records the migration details and lessons learned.
+On 2026-05-15, the knowledge base directory structure was migrated from `<OLD_KNOWLEDGE_DIR>/` to `<KNOWLEDGE_DIR>/`. This incident document records the migration details and lessons learned.
 
 ## Migration Details
 
 | Item | Before | After |
 |------|--------|-------|
-| Root directory | `/root/wiki/` | `/root/.hermes/knowledge/` |
+| Root directory | `<OLD_KNOWLEDGE_DIR>/` | `<KNOWLEDGE_DIR>/` |
 | Files migrated | 823 | 823 |
 | Git initialized | No | Yes |
 | Cron tasks | Old paths | Updated |
 
 ## Root Cause
 
-The original `/root/wiki/` directory was not the intended location. The correct location should have been `/root/.hermes/knowledge/` from the start.
+The original `<OLD_KNOWLEDGE_DIR>/` directory was not the intended location. The correct location should have been `<KNOWLEDGE_DIR>/` from the start.
 
 ## Impact
 
@@ -29,26 +29,26 @@ After any directory structure change:
 
 ```bash
 # 1. Verify actual directory structure
-ls -la /root/.hermes/knowledge/
+ls -la <KNOWLEDGE_DIR>/
 
 # 2. Find old path references
-grep -r "/root/wiki" /root/.hermes/skills/ 2>/dev/null
-grep -r "wiki" /root/.hermes/knowledge/.learnings/ 2>/dev/null
+grep -r "<OLD_KNOWLEDGE_DIR>" <HERMES_ROOT>/skills/ 2>/dev/null
+grep -r "wiki" <KNOWLEDGE_DIR>/.learnings/ 2>/dev/null
 
 # 3. Test cron task execution
 # Run a test cron task and verify it completes successfully
 
 # 4. Check git status
-cd /root/.hermes/knowledge && git status
+cd <KNOWLEDGE_DIR> && git status
 ```
 
 ## Current Path Reference
 
 | Component | Path |
 |-----------|------|
-| Knowledge base | `/root/.hermes/knowledge/` |
-| Session files | `/root/.hermes/sessions/` |
-| Session database | `/root/.hermes/state.db` |
+| Knowledge base | `<KNOWLEDGE_DIR>/` |
+| Session files | `<HERMES_SESSIONS_DIR>/` |
+| Session database | `<HERMES_STATE_DB>` |
 | Nightly digests | `04-知识库/01-阅读消化/04-摘要汇总/` |
 | Integration reports | `04-知识库/99-系统/03-集成报告/` |
 | Project briefs | `04-知识库/01-阅读消化/02-主题知识/` |

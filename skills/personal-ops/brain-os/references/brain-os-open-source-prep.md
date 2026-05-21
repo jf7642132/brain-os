@@ -2,12 +2,12 @@
 
 ## 背景
 
-将 Brain OS 技能体系整理为可开源的独立仓库，灵感来源于 OpenClaw 的 git-backed brain 设计。
+将 Brain OS 技能体系整理为可开源的独立仓库，灵感来源于 Karpathy LLM Wiki 概念和 Obsidian-Brain-OS 的 git-backed brain 设计。
 
 ## 核心原则
 
 1. **定位为技能体系**：不是独立系统，而是一套可组合的技能集合
-2. **排除个人数据**：不包含 Paperclip、红果短剧、化工品贸易等个人项目内容
+2. **排除个人数据**：不包含第三方系统、特定项目、特定行业贸易等个人项目内容
 3. **简化部署**：hermes 直接读取技能目录，无需复杂配置
 4. **参数化路径**：所有硬编码路径替换为环境变量
 
@@ -16,14 +16,14 @@
 ### 1. 清理个人数据
 
 检查并移除以下内容：
-- Paperclip 相关内容（公司项目、TradeRisk、TrendRadar）
-- 红果短剧项目内容
-- 化工品贸易相关内容
+- 第三方系统相关内容（公司项目、风险预警、趋势雷达）
+- 特定项目内容
+- 化工贸易相关内容
 - 个人运营数据
 
 ```bash
 # 搜索个人数据引用
-grep -r "paperclip\|Paperclip\|化工\|红果\|短剧\|trade-risk\|TrendRadar" <repo-dir>
+grep -r "paperclip|第三方系统|化工|特定项目|trade-risk|趋势雷达" <repo-dir>
 ```
 
 ### 2. 参数化路径
@@ -61,7 +61,7 @@ brain-os/
 
 关键要点：
 - 明确定位为"技能体系"
-- 标注灵感来源（OpenClaw git-backed brain）
+- 标注灵感来源（Karpathy LLM Wiki + Obsidian-Brain-OS）
 - 列出所有依赖技能（均为 Hermes 内置）
 - 提供简化部署方式
 
@@ -85,7 +85,7 @@ secrets.json
 
 ```bash
 # 检查个人数据引用
-grep -rE "paperclip|Paperclip|化工|红果|短剧|trade-risk|TrendRadar" .
+grep -rE "paperclip|第三方系统|化工|特定项目|trade-risk|趋势雷达" .
 
 # 检查仓库结构
 find . -type f | head -20
@@ -114,11 +114,11 @@ hermes
 | 错误 | 原因 | 修复 |
 |------|------|------|
 | 定位为"系统" | 未理解技能体系本质 | README 开头明确说明 |
-| 包含 Paperclip 内容 | 未彻底清理 | grep 搜索并移除 |
+| 包含第三方系统内容 | 未彻底清理 | grep 搜索并移除 |
 | 部署复杂 | 过度设计 | 简化为环境变量 + 目录挂载 |
 | 路径硬编码 | 未参数化 | 使用 HERMES_ROOT 等环境变量 |
 
 ## 参考
 
-- OpenClaw: https://github.com/openclaw/openclaw
-- OpenClaw git-backed brain: https://artifacthub.io/packages/helm/openclaw-with-brain/openclaw-with-brain
+- Karpathy LLM Wiki: https://github.com/karpathy/llm-wiki
+- Obsidian-Brain-OS: https://github.com/FairladyZ625/Obsidian-Brain-OS

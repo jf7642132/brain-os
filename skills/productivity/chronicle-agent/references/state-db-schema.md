@@ -5,7 +5,7 @@
 ## Database Location
 
 ```
-/root/.hermes/state.db
+<HERMES_STATE_DB>
 ```
 
 ## Tables
@@ -128,7 +128,7 @@ cur.execute("""
 - `no such column: session_id`
 - `no such column: created_at`
 
-**Fallback**: If `state.db` queries fail, fall back to direct session file scan in `/root/.hermes/sessions/`.
+**Fallback**: If `state.db` queries fail, fall back to direct session file scan in `<HERMES_SESSIONS_DIR>/`.
 
 ## Session ID Formats
 

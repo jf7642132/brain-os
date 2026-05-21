@@ -4,7 +4,7 @@
 
 set -e
 
-WIKI_DIR="/root/wiki"
+WIKI_DIR="${HERMES_KNOWLEDGE:-$HOME/.hermes/knowledge}"
 TODO_BACKLOG="$WIKI_DIR/01-个人运营/03-待办跟进/todo-backlog.md"
 LOG_FILE="$WIKI_DIR/01-个人运营/05-运营日志/任务归档.log"
 

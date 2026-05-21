@@ -11,7 +11,7 @@ Each line is a **separate JSON object** representing one message in the conversa
 ## File Location
 
 ```
-/root/.hermes/sessions/
+<HERMES_SESSIONS_DIR>/
 ```
 
 ## Line Structure

@@ -257,7 +257,7 @@ cp ~/.hermes/skills/brain-os/templates/jobs-template.json ~/.hermes/brain-os-job
 | `<YOUR_TELEGRAM_CHAT_ID>` | `8377601886` | Telegram 聊天 ID |
 | `<YOUR_CHAT_ID>` | `1234567890` | 其他聊天 ID |
 | `<KNOWLEDGE_DIR>` | `/path/to/your/knowledge` | 知识库路径 |
-| `<PAPERCLIP_URL>` | `http://<YOUR_PAPERCLIP_URL>` | Paperclip 服务地址（可选） |
+| `<EXTERNAL_URL>` | `http://<YOUR_EXTERNAL_URL>` | 外部服务地址（可选） |
 
 #### 步骤 3：导入任务
 
@@ -283,7 +283,7 @@ hermes cron show <task-id>
 hermes cron run <task-id>
 ```
 
-#### 任务列表（14 个）
+#### 任务列表（11 个）
 
 | 任务名称 | 调度 | 作用 |
 |----------|------|------|
@@ -370,7 +370,7 @@ MIT License
 
 - 移除通用生产力工具（airtable, notion, powerpoint 等 10 个）
 - 更新 SKILL.md 和 README.md 依赖说明
-- 移除外贸风险相关任务（非 Brain OS 核心）
+- 移除非 Brain OS 任务（业务风险、数据采集等）
 - 仓库精简至 97 个文件
 
 ### 2026-05-20

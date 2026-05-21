@@ -2,7 +2,7 @@
 
 ## Background
 
-On 2026-05-15, the knowledge directory structure was migrated from `/root/wiki/` to `/root/.hermes/knowledge/`. This was a 823-file migration that affected:
+On 2026-05-15, the knowledge directory structure was migrated from `<OLD_KNOWLEDGE_DIR>/` to `<KNOWLEDGE_DIR>/`. This was a 823-file migration that affected:
 
 - All skill path references
 - All cron task paths
@@ -12,14 +12,14 @@ On 2026-05-15, the knowledge directory structure was migrated from `/root/wiki/`
 
 ### Before Migration
 ```
-/root/wiki/03-知识库/01-阅读消化/04-摘要汇总/nightly-digest-YYYY-MM-DD.md
-/root/wiki/03-知识库/99-系统/03-集成报告/YYYY-MM-DD/knowledge-amplifier-report-YYYY-MM-DD.md
+<OLD_KNOWLEDGE_DIR>/03-知识库/01-阅读消化/04-摘要汇总/nightly-digest-YYYY-MM-DD.md
+<OLD_KNOWLEDGE_DIR>/03-知识库/99-系统/03-集成报告/YYYY-MM-DD/knowledge-amplifier-report-YYYY-MM-DD.md
 ```
 
 ### After Migration
 ```
-/root/.hermes/knowledge/04-知识库/01-阅读消化/04-摘要汇总/nightly-digest-YYYY-MM-DD.md
-/root/.hermes/knowledge/04-知识库/99-系统/03-集成报告/YYYY-MM-DD/knowledge-amplifier-report-YYYY-MM-DD.md
+<KNOWLEDGE_DIR>/04-知识库/01-阅读消化/04-摘要汇总/nightly-digest-YYYY-MM-DD.md
+<KNOWLEDGE_DIR>/04-知识库/99-系统/03-集成报告/YYYY-MM-DD/knowledge-amplifier-report-YYYY-MM-DD.md
 ```
 
 Note: The directory number changed from `03-知识库` to `04-知识库` as part of the reorganization.
@@ -30,19 +30,19 @@ After any path migration, verify:
 
 1. **Skill references updated**:
    ```bash
-   grep -r "03-知识库" /root/.hermes/skills/ 2>/dev/null
+   grep -r "03-知识库" <HERMES_ROOT>/skills/ 2>/dev/null
    # Should return nothing (or only in historical references)
    ```
 
 2. **Cron tasks updated**:
    ```bash
-   grep -r "wiki" /root/.hermes/cron/ 2>/dev/null
+   grep -r "wiki" <HERMES_CRON_DIR>/ 2>/dev/null
    # Should return nothing (or only in historical references)
    ```
 
 3. **Git history confirms migration**:
    ```bash
-   cd /root/.hermes/knowledge && git log --oneline --since="2026-05-14"
+   cd <KNOWLEDGE_DIR> && git log --oneline --since="2026-05-14"
    ```
 
 ## Lessons Learned

@@ -3,7 +3,7 @@
 ## 文件位置
 
 ```
-/root/.hermes/scripts/kanban-sync.py
+<HERMES_SCRIPTS_DIR>/kanban-sync.py
 ```
 
 ## 核心函数

@@ -3,7 +3,7 @@
 Brain OS Kanban 同步工具
 
 将本地 kanban 任务同步到 git 仓库，保持版本历史。
-灵感来源于 OpenClaw 的 git-backed brain 设计。
+灵感来源于 Karpathy LLM Wiki 概念和 Obsidian-Brain-OS 的 git-backed brain 设计。
 
 用法:
     python kanban-sync.py              # 同步当前状态

@@ -127,7 +127,7 @@ sessions_list → get today's session list
 ```python
 import os, json
 
-session_file = "/root/.hermes/sessions/session_20260519_105333_314e8b.json"
+session_file = "<HERMES_SESSIONS_DIR>/session_20260519_105333_314e8b.json"
 
 # Check extension first
 if session_file.endswith('.jsonl'):
@@ -611,7 +611,7 @@ Session files may not be in the expected format. Multiple formats exist:
 ```python
 import os, json
 
-session_file = "/root/.hermes/sessions/session_20260519_105333_314e8b.json"
+session_file = "<HERMES_SESSIONS_DIR>/session_20260519_105333_314e8b.json"
 
 # Check extension first
 if session_file.endswith('.json'):
@@ -659,7 +659,7 @@ count = int(output) if output.isdigit() else 0
 When "Falling back to default config" appears in logs:
 1. **Immediate action**: Run YAML validation
    ```bash
-   python -c "import yaml; yaml.safe_load(open('/root/.hermes/config.yaml'))" && echo "Valid" || echo "Invalid"
+   python -c "import yaml; yaml.safe_load(open('<HERMES_CONFIG>'))" && echo "Valid" || echo "Invalid"
    ```
 2. **Report severity**: Always report as `high` severity infrastructure issue
 3. **Impact**: ALL custom config (fallback_providers, model settings, auxiliary providers) is ignored until fixed

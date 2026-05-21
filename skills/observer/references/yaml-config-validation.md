@@ -10,8 +10,8 @@ The `config.yaml` file controls Hermes Agent behavior. YAML syntax errors cause 
 
 **Error message**:
 ```
-Failed to parse /root/.hermes/config.yaml: while parsing a block mapping
-in "/root/.hermes/config.yaml", line 22, column 5
+Failed to parse <HERMES_CONFIG>: while parsing a block mapping
+in "<HERMES_CONFIG>", line 22, column 5
 expected <block end>, but found '<block mapping start>'
 ```
 
@@ -69,14 +69,14 @@ model: "sensenova-6.7-flash-lite"
 
 ```bash
 # Using Python
-python -c "import yaml; yaml.safe_load(open('/root/.hermes/config.yaml'))" && echo "YAML valid" || echo "YAML invalid"
+python -c "import yaml; yaml.safe_load(open('<HERMES_CONFIG>'))" && echo "YAML valid" || echo "YAML invalid"
 ```
 
 ### Detailed Validation
 
 ```bash
 # Using yamllint (if installed)
-yamllint /root/.hermes/config.yaml
+yamllint <HERMES_CONFIG>
 ```
 
 ## Impact of Config Errors

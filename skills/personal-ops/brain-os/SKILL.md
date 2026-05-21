@@ -14,9 +14,9 @@ metadata:
 
 # Brain OS 技能体系
 
-基于 OpenClaw git-backed brain 设计灵感的 Hermes 技能体系，实现 Agent 的 git-backed brain 工作流。
+基于 Karpathy LLM Wiki 概念和 Obsidian-Brain-OS 设计灵感的 Hermes 技能体系，实现 Agent 的 git-backed brain 工作流。
 
-> **重要定位**：Brain OS 不是独立系统，而是一套**可组合的技能集合**。灵感来源于 [OpenClaw](https://github.com/openclaw/openclaw) 的 git-backed brain 设计：Agent 的知识库、记忆、配置全部存储在 git 仓库中，每次启动自动同步，夜间自动提交变更。
+> **重要定位**：Brain OS 不是独立系统，而是一套**可组合的技能集合**。灵感来源于 [Karpathy 的 LLM Wiki 概念](https://github.com/karpathy/llm-wiki) 和 [Obsidian-Brain-OS](https://github.com/FairladyZ625/Obsidian-Brain-OS) 的 git-backed brain 设计：Agent 的知识库、记忆、配置全部存储在 git 仓库中，每次启动自动同步，夜间自动提交变更。
 
 ## 当此技能激活
 
@@ -345,10 +345,10 @@ hermes kanban list --status open | wc -l
 **检测**：
 ```bash
 # 查找所有中文目录
-find /root/.hermes/knowledge -type d -name '*[一-龥]*'
+find <KNOWLEDGE_DIR> -type d -name '*[一-龥]*'
 
 # 检查是否有重复目录
-ls -la /root/.hermes/knowledge/ | grep -E "03-个人运营|03-personal-ops"
+ls -la <KNOWLEDGE_DIR>/ | grep -E "03-个人运营|03-personal-ops"
 ```
 
 **修复**：
@@ -371,10 +371,10 @@ ls -la /root/.hermes/knowledge/ | grep -E "03-个人运营|03-personal-ops"
 **检测**：
 ```bash
 # 1. 用脚本读（可能返回空）
-python3 /root/.hermes/scripts/kanban-sync.py --task kanban-manager --read-todo
+python3 <HERMES_SCRIPTS_DIR>/kanban-sync.py --task kanban-manager --read-todo
 
 # 2. 直接看文件确认是否有真正待办
-grep -c "待执行" /root/.hermes/knowledge/todo-backlog.md
+grep -c "待执行" <KNOWLEDGE_DIR>/todo-backlog.md
 
 # 3. 如果 grep 返回 >0 但脚本说 0，就是格式不匹配
 ```
@@ -437,7 +437,7 @@ delivery error: Telegram send failed: Forbidden: the bot can't send messages to 
 hermes cron list | grep -A5 "观察者"
 
 # 确认 deliver 和 telegram_chat_id
-cat /root/.hermes/cron/jobs.json | jq '.jobs[] | select(.name | contains("观察者")) | {deliver, telegram_chat_id}'
+cat <HERMES_CRON_DIR>/jobs.json | jq '.jobs[] | select(.name | contains("观察者")) | {deliver, telegram_chat_id}'
 ```
 
 ### 5.13 自动提取的待办描述被截断（2026-05-20 发现）
@@ -445,7 +445,7 @@ cat /root/.hermes/cron/jobs.json | jq '.jobs[] | select(.name | contains("观察
 **问题**：夜间知识放大器等生产者任务自动提取的待办项，描述字段可能被截断。
 
 **症状**：
-- `M001`: "4 月 16 日至 18 日的 3 篇外贸风险预警日报积压超过 30 天，未进" — 描述被截断
+- `M001`: "4 月 16 日至 18 日的 3 篇通用业务风险预警日报积压超过 30 天，未进" — 描述被截断
 - `M002`: "任务状态仍为 "In Progress"，预计完成时间" — 描述被截断
 
 **根因**：生产者任务在提取待办时，描述字段长度受限，导致长描述被截断。
@@ -488,9 +488,9 @@ cat /root/.hermes/cron/jobs.json | jq '.jobs[] | select(.name | contains("观察
 
 **症状**：
 ```
-/root/.hermes/knowledge/03-知识库/
-/root/.hermes/knowledge/04-知识库/
-/root/.hermes/knowledge/99-系统/
+<KNOWLEDGE_DIR>/03-知识库/
+<KNOWLEDGE_DIR>/04-知识库/
+<KNOWLEDGE_DIR>/99-系统/
 ```
 
 **根因**：
@@ -506,12 +506,12 @@ cat /root/.hermes/cron/jobs.json | jq '.jobs[] | select(.name | contains("观察
 **检测**：
 ```bash
 # 查找所有中文目录
-find /root/.hermes/knowledge -type d -name '*[一-龥]*'
+find <KNOWLEDGE_DIR> -type d -name '*[一-龥]*'
 
 # 检查技能文档中的路径引用
-grep -r "03-知识库\|04-知识库\|99-系统" /root/.hermes/skills/article-notes-integration/
-grep -r "04-知识库\|99-系统" /root/.hermes/skills/conversation-knowledge-flywheel/
-grep -r "04-知识库\|99-系统" /root/.hermes/skills/knowledge-flywheel-amplifier/
+grep -r "03-知识库\|04-知识库\|99-系统" <HERMES_ROOT>/skills/article-notes-integration/
+grep -r "04-知识库\|99-系统" <HERMES_ROOT>/skills/conversation-knowledge-flywheel/
+grep -r "04-知识库\|99-系统" <HERMES_ROOT>/skills/knowledge-flywheel-amplifier/
 ```
 
 **修复**：
@@ -569,33 +569,33 @@ grep -r "04-知识库\|99-系统" /root/.hermes/skills/knowledge-flywheel-amplif
 
 ```bash
 # 检查是否有中文目录
-find /root/.hermes/knowledge -type d -name '*[一-龥]*'
+find <KNOWLEDGE_DIR> -type d -name '*[一-龥]*'
 
 # 检查 todo-backlog.md 位置
-ls -la /root/.hermes/knowledge/06-context/todo-tracking/todo-backlog.md
+ls -la <KNOWLEDGE_DIR>/06-context/todo-tracking/todo-backlog.md
 ```
 
 ### 6.2 数据流验证
 
 ```bash
 # 测试 --write-todo 模式
-python /root/.hermes/scripts/kanban-sync.py --task observer-self-check --write-todo --dry-run
+python <HERMES_SCRIPTS_DIR>/kanban-sync.py --task observer-self-check --write-todo --dry-run
 
 # 测试 --read-todo 模式
-python /root/.hermes/scripts/kanban-sync.py --task kanban-manager --read-todo --dry-run
+python <HERMES_SCRIPTS_DIR>/kanban-sync.py --task kanban-manager --read-todo --dry-run
 
 # 测试 --update-todo 模式
-python /root/.hermes/scripts/kanban-sync.py --task kanban-manager --update-todo --kanban-id <id> --status resolved --dry-run
+python <HERMES_SCRIPTS_DIR>/kanban-sync.py --task kanban-manager --update-todo --kanban-id <id> --status resolved --dry-run
 ```
 
 ### 6.3 路径引用验证
 
 ```bash
 # 检查 kanban-sync.py 中的路径
-grep -n "TODO_PATH\|TRACKERS_DIR" /root/.hermes/scripts/kanban-sync.py
+grep -n "TODO_PATH\|TRACKERS_DIR" <HERMES_SCRIPTS_DIR>/kanban-sync.py
 
 # 检查 cron 任务中的路径引用
-grep -r "03-个人运营\|待办跟进" /root/.hermes/cron/jobs.json
+grep -r "03-个人运营\|待办跟进" <HERMES_CRON_DIR>/jobs.json
 ```
 
 ---
@@ -610,7 +610,7 @@ grep -r "03-个人运营\|待办跟进" /root/.hermes/cron/jobs.json
 
 1. **创建新目录结构**
 ```bash
-cd /root/.hermes/knowledge
+cd <KNOWLEDGE_DIR>
 mkdir -p 00-raw/{articles,papers,transcripts/assets}
 mkdir -p 01-entities/{projects,companies,products,people}
 mkdir -p 02-concepts/{trade-risk,chemical-trade,ai-ops,personal-ops}
@@ -635,14 +635,14 @@ mkdir -p 99-system/{lint-reports,trackers,kanban}
 
 4. **更新 cron 任务 workdir**
 ```bash
-hermes cron edit <job-id> --workdir /root/.hermes/knowledge
+hermes cron edit <job-id> --workdir <KNOWLEDGE_DIR>
 ```
 
 5. **验证新结构**
 ```bash
-ls -R /root/.hermes/knowledge
+ls -R <KNOWLEDGE_DIR>
 # 检查中文目录
-find /root/.hermes/knowledge -type d -name "*[一-龥]*"
+find <KNOWLEDGE_DIR> -type d -name "*[一-龥]*"
 ```
 
 **完成标准**：
@@ -821,7 +821,7 @@ hermes cron edit 728448c18c9c --prompt "作为 Brain OS 史官记录，扫描聊
 4. 写入 todo-backlog.md（使用 kanban-sync.py --write-todo）
 5. 输出提取摘要
 
-工作目录：/root/.hermes/knowledge"
+工作目录：<KNOWLEDGE_DIR>"
 ```
 
 **完成标准**：
@@ -882,7 +882,7 @@ hermes cron create "0 8 * * *" "作为 Brain OS Kanban 管理层，执行 Kanban
    - 更新卡片数量
    - 同步失败项
 
-工作目录：/root/.hermes/knowledge" --name "Brain OS Kanban 管理层" --deliver local --workdir /root/.hermes/knowledge
+工作目录：<KNOWLEDGE_DIR>" --name "Brain OS Kanban 管理层" --deliver local --workdir <KNOWLEDGE_DIR>
 ```
 
 **调度**：0 8 * * *（每天早上 8 点）
@@ -913,10 +913,10 @@ python3 scripts/kanban-sync.py --read-todo --task kanban-manager
 python3 scripts/kanban-sync.py --update-todo --task kanban-manager
 
 # 验证知识库结构
-find /root/.hermes/knowledge -type d -name "*[一-龥]*"
+find <KNOWLEDGE_DIR> -type d -name "*[一-龥]*"
 
 # 查看 todo 状态
-cat /root/.hermes/knowledge/06-context/todo-tracking/todo-backlog.md
+cat <KNOWLEDGE_DIR>/06-context/todo-tracking/todo-backlog.md
 ```
 
 ---
@@ -930,7 +930,7 @@ Brain OS 是**技能体系**而非独立系统，开源时应明确：
 | 项目 | 正确表述 | 错误表述 |
 |------|----------|----------|
 | 定位 | "一套可组合的技能集合" | "独立系统/平台" |
-| 灵感来源 | "OpenClaw git-backed brain 设计" | 不提或错误引用 |
+| 灵感来源 | "Karpathy LLM Wiki + Obsidian-Brain-OS" | 正确引用 |
 | 依赖 | "全部为 Hermes 官方内置技能" | "需要额外安装 XX 系统" |
 
 ### 10.2 内容隔离
@@ -945,9 +945,9 @@ Brain OS 是**技能体系**而非独立系统，开源时应明确：
 ```
 
 **检查清单**：
-- [ ] 无 Paperclip 相关内容（公司项目、TradeRisk、TrendRadar 等）
-- [ ] 无红果短剧项目内容
-- [ ] 无化工品贸易相关内容
+- [ ] 无第三方系统相关内容（公司项目、风险预警、趋势雷达 等）
+- [ ] 无特定项目内容
+- [ ] 无特定行业贸易相关内容
 - [ ] 无个人运营数据
 - [ ] 所有路径参数化（使用环境变量）
 

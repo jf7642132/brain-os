@@ -39,16 +39,16 @@ type: reference
 
 ```bash
 # 检查实际目录结构
-ls -la /root/.hermes/knowledge/
+ls -la <KNOWLEDGE_DIR>/
 
 # 查找旧路径引用
-grep -r "03-知识库" /root/.hermes/skills/ 2>/dev/null | head -20
+grep -r "03-知识库" <HERMES_ROOT>/skills/ 2>/dev/null | head -20
 
 # 检查频道历史文件
-ls /root/.hermes/knowledge/09-personal-ops/05-channel-history/
+ls <KNOWLEDGE_DIR>/09-personal-ops/05-channel-history/
 
 # 检查集成报告
-ls /root/.hermes/knowledge/99-system/03-integration-reports/
+ls <KNOWLEDGE_DIR>/99-system/03-integration-reports/
 ```
 
 ## 命名约定总结

@@ -49,7 +49,7 @@ description: >
 
 **See**: `references/path-migration-2026-05-15.md` for migration incident details.
 
-> **⚠️ Session Search Limitation**: `session_search` with exact time windows may return 0 results even when relevant sessions exist. Always verify by listing actual session files in `/root/.hermes/sessions/` and reading content directly if needed.
+> **⚠️ Session Search Limitation**: `session_search` with exact time windows may return 0 results even when relevant sessions exist. Always verify by listing actual session files in `<HERMES_SESSIONS_DIR>/` and reading content directly if needed.
 
 ### Required Outputs
 
@@ -153,7 +153,7 @@ These patterns have been validated through multiple nightly runs:
 4. Create "strategy → task" mapping
 5. Output: executable task map + strategy alignment notes
 
-**Example**: 外贸数字化看板规划 → 四大板块 + T0-T9 任务图草案
+**Example**: 通用业务数字化看板规划 → 四大板块 + T0-T9 任务图草案
 
 ---
 
@@ -258,10 +258,10 @@ After knowledge directory structure changes (e.g., wiki → knowledge migration 
 **Verification command**:
 ```bash
 # Check actual knowledge directory structure
-ls -la /root/.hermes/knowledge/
+ls -la <KNOWLEDGE_DIR>/
 
 # Find any remaining old-path references
-grep -r "03-知识库" /root/.hermes/skills/ 2>/dev/null | head -20
+grep -r "03-知识库" <HERMES_ROOT>/skills/ 2>/dev/null | head -20
 ```
 
 Nightly digests accumulate in **one location** — read from the correct one:
@@ -292,7 +292,7 @@ When using `kanban-sync.py --write-todo`, the output file must contain items mat
 
 **Incorrect format** (will not be parsed):
 ```markdown
-### P1: 外贸风险预警日报积压
+### P1: 通用业务风险预警日报积压
 - **问题**: 详细说明
 ```
 

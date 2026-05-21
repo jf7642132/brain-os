@@ -7,13 +7,13 @@ Usage:
     python3 kb-audit.py --report     # Write markdown report to kb index
 
 Environment:
-    KB = /root/.hermes/knowledge (hardcoded)
+    KB = <KNOWLEDGE_DIR> (hardcoded)
 """
 import json, re, os, sys
 from collections import defaultdict
 from datetime import date
 
-KB = "/root/.hermes/knowledge"
+KB = "<KNOWLEDGE_DIR>"
 
 def collect_files():
     files = []
@@ -122,9 +122,9 @@ def find_orphans(files, obsidian_links, title_to_path, basename_map):
         r'/05-系统配置/提示词/',
         r'/05-系统配置/模板/',
         r'/05-系统配置/SCHEMA\.md$', r'/05-系统配置/log\.md$',
-        r'/01-项目/02-红果短剧改编/.*/script/',
-        r'/01-项目/02-红果短剧改编/.*/original/',
-        r'/01-项目/02-红果短剧改编/.*/assistant_configs/',
+        r'/01-项目/02-特定项目改编/.*/script/',  # 特定项目脚本
+        r'/01-项目/02-特定项目改编/.*/original/',  # 特定项目原文
+        r'/01-项目/02-特定项目改编/.*/assistant_configs/',  # 特定项目配置
         r'/03-个人运营/05-频道历史/',
         r'/04-知识库/99-系统/03-(整合|集成)报告/',
         r'/04-知识库/99-系统/01-索引/',

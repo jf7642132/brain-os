@@ -1,12 +1,12 @@
 #!/bin/bash
 # Hermes Agent Backup Script - Optimized version
 # Excludes large runtime directories (node) that can be reinstalled
-# Creates compressed backup of /root/.hermes, keeps max 15 most recent backups
+# Creates compressed backup of HERMES_ROOT, keeps max 15 most recent backups
 
 set -e
 
 # Configuration
-SOURCE_DIR="/root/.hermes"
+SOURCE_DIR="${HERMES_ROOT:-$HOME/.hermes}"
 BACKUP_DIR="/root/hermes-backups"
 LOG_FILE="/var/log/hermes-backup.log"
 MAX_BACKUPS=15

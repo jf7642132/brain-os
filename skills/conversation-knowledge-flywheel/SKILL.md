@@ -345,7 +345,7 @@ Provide a compact block titled:
 **Critical**: In cron job context, `session_search` is blind to user sessions. Use direct file scan instead.
 
 See `references/session-discovery-pattern.md` for the validated pattern:
-1. Direct file scan of `/root/.hermes/sessions/`
+1. Direct file scan of `<HERMES_SESSIONS_DIR>/`
 2. Size-based prioritization (largest files first)
 3. Epoch-based time filtering (not `-mmin`)
 4. Pattern matching for knowledge signals
@@ -363,7 +363,7 @@ See `references/session-discovery-workflow.md` for the validated 5-step workflow
 
 ### Actual Session Location
 
-The actual session files are stored in `/root/.hermes/sessions/` with two naming patterns:
+The actual session files are stored in `<HERMES_SESSIONS_DIR>/` with two naming patterns:
 
 **Timestamp-based naming** (CLI, Telegram, WeChat, some api_server):
 - Format: `session_YYYYMMDD_HHMMSS_[random].json` or `session_cron_[random]_YYYYMMDD_HHMMSS.json`
@@ -401,7 +401,7 @@ elif 'Key learning' in content or 'What was learned' in content:
 
 ### Session Database Schema
 
-The session database at `/root/.hermes/state.db` has the following structure:
+The session database at `<HERMES_STATE_DB>` has the following structure:
 ```sql
 CREATE TABLE sessions (
     id TEXT PRIMARY KEY,
@@ -471,13 +471,13 @@ In cron job context, session_search almost exclusively returns cron sessions. Us
 
 1. **List session files by modification time**, excluding cron files:
    ```bash
-   ls -lt /root/.hermes/sessions/ | grep -v 'session_cron' | head -40
+   ls -lt <HERMES_SESSIONS_DIR>/ | grep -v 'session_cron' | head -40
    ```
    (This catches ALL user sessions regardless of whether they're indexed.)
 
 2. **Filter by time window using epoch-based comparison:**
    ```bash
-   find /root/.hermes/sessions/ -name '*.json' ! -name '*cron*' | while read f; do
+   find <HERMES_SESSIONS_DIR>/ -name '*.json' ! -name '*cron*' | while read f; do
        file_epoch=$(stat -c %Y "$f")
        if [ $(( (now - file_epoch) / 3600 )) -lt 24 ]; then echo "$f"; fi
    done
@@ -495,22 +495,22 @@ In cron job context, session_search almost exclusively returns cron sessions. Us
 ### ⚠️ Pitfall: Cron Task Path Configuration Drift
 
 **Problem**: Cron task templates may specify paths that don't match actual system structure:
-- Cron task specified `/root/wiki/` but actual location is `/root/.hermes/knowledge/`
+- Cron task specified `<OLD_KNOWLEDGE_DIR>/` but actual location is `<KNOWLEDGE_DIR>/`
 - This causes silent failures when scripts run with wrong paths
 
 **Solution**: Before running any pipeline stage:
-1. Verify the actual knowledge directory exists: `ls -la /root/.hermes/knowledge/`
-2. Check for old path references: `grep -r "/root/wiki" /root/.hermes/skills/ 2>/dev/null`
+1. Verify the actual knowledge directory exists: `ls -la <KNOWLEDGE_DIR>/`
+2. Check for old path references: `grep -r "<OLD_KNOWLEDGE_DIR>" <HERMES_ROOT>/skills/ 2>/dev/null`
 3. Update cron task templates to use actual paths
 
 ### Current paths (as of 2026-05-15 wiki → knowledge migration):
 | Component | Actual Path |
 |-----------|-------------|
-| Knowledge base | `/root/.hermes/knowledge/` |
-| Session files | `/root/.hermes/sessions/` |
-| Session database | `/root/.hermes/state.db` |
-| Nightly digests | `/root/.hermes/knowledge/04-queries/daily/04-summary/` |
-| Integration reports | `/root/.hermes/knowledge/99-system/03-integration-reports/` |
+| Knowledge base | `<KNOWLEDGE_DIR>/` |
+| Session files | `<HERMES_SESSIONS_DIR>/` |
+| Session database | `<HERMES_STATE_DB>` |
+| Nightly digests | `<KNOWLEDGE_DIR>/04-queries/daily/04-summary/` |
+| Integration reports | `<KNOWLEDGE_DIR>/99-system/03-integration-reports/` |
 
 **See**: `references/path-migration-2026-05-15.md` for migration incident details.
 

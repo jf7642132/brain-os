@@ -75,7 +75,7 @@ This is a reliable signal that the window contains **no user-initiated interacti
 **Workaround**: Use SQLite query on `state.db` for precise time filtering:
 ```python
 import sqlite3
-conn = sqlite3.connect('/root/.hermes/state.db')
+conn = sqlite3.connect('<HERMES_STATE_DB>')
 cur = conn.cursor()
 cur.execute("""
     SELECT id, source, started_at

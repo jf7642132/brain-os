@@ -30,7 +30,7 @@ from pathlib import Path
 
 # 配置
 HERMES_ROOT = os.path.expanduser("~/.hermes")
-TODO_PATH = "/root/.hermes/todo-backlog.md"
+TODO_PATH = os.environ.get("HERMES_TODO_PATH", os.path.expanduser("~/.hermes/todo-backlog.md"))
 
 # 优先级映射
 PRIORITY_MAP = {

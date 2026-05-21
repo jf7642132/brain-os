@@ -2,7 +2,7 @@
 
 ## Primary Data Source
 
-The `state.db` SQLite database at `/root/.hermes/state.db` is the primary source for session and message data.
+The `state.db` SQLite database at `<HERMES_STATE_DB>` is the primary source for session and message data.
 
 ## Tables
 
@@ -19,7 +19,7 @@ import sqlite3
 from datetime import datetime, timezone, timedelta
 
 tz = timezone(timedelta(hours=8))  # CST
-conn = sqlite3.connect('/root/.hermes/state.db')
+conn = sqlite3.connect('<HERMES_STATE_DB>')
 cur = conn.cursor()
 
 # Get sessions in time window
@@ -98,7 +98,7 @@ SYSTEM_SOURCES = ['cron', 'curator']
 
 ## Session File Format
 
-Session files are stored as standard `.json` files in `/root/.hermes/sessions/`:
+Session files are stored as standard `.json` files in `<HERMES_SESSIONS_DIR>/`:
 
 ```
 session_20260518_070224_958b54.json

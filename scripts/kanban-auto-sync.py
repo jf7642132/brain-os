@@ -5,11 +5,13 @@ Kanban → Todo 自动同步脚本
 """
 
 import subprocess
+import os
 import json
+from pathlib import Path
 from datetime import datetime
 
-TODO_PATH = "/root/.hermes/knowledge/06-context/todo-tracking/todo-backlog.md"
-SCRIPT_PATH = "/root/.hermes/scripts/kanban-sync.py"
+TODO_PATH = os.environ.get("HERMES_TODO_PATH", str(Path.home() / ".hermes" / "knowledge" / "06-context" / "todo-tracking" / "todo-backlog.md"))
+SCRIPT_PATH = os.environ.get("HERMES_SCRIPTS_DIR", os.path.expanduser("~/.hermes/scripts")) + "/kanban-sync.py"
 
 def get_done_kanban_tasks():
     """获取所有 done 状态的 Kanban 卡片"""

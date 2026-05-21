@@ -4,11 +4,12 @@
 import os
 import re
 import sys
+import os
 from pathlib import Path
 from collections import defaultdict
 from datetime import datetime
 
-KNOWLEDGE_ROOT = Path("/root/.hermes/knowledge")
+KNOWLEDGE_ROOT = Path(os.environ.get("HERMES_KNOWLEDGE", Path.home() / ".hermes" / "knowledge"))
 TRANSCRIPTS_DIR = KNOWLEDGE_ROOT / "00-raw" / "transcripts" / "频道历史"
 TODO_FILE = KNOWLEDGE_ROOT / "06-context" / "待办跟进" / "todo-backlog.md"
 TRACKER_FILE = KNOWLEDGE_ROOT / "99-system" / "trackers" / "dialogue-mining-tracker.md"

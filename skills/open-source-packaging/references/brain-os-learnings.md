@@ -4,18 +4,18 @@ Session: 2026-05-18
 
 ## Project Details
 
-- **Project**: Brain OS - 一套基于 OpenClaw git 驱动持久化设计、结合 Hermes Kanban 任务管理的技能体系
+- **Project**: Brain OS - 一套基于 Karpathy LLM Wiki 概念和 Obsidian-Brain-OS 设计灵感、结合 Hermes Kanban 任务管理的技能体系
 - **Repository**: https://github.com/jf7642132/brain-os
 - **License**: MIT
 
 ## Terminology Correction
 
-**Issue**: Used "git-backed brain" as an OpenClaw feature name
+**Issue**: Used "git-backed brain" terminology
 
-**Correction**: "git-backed brain" is NOT an official OpenClaw term. It's:
+**Correction**: "git-backed brain" is a design pattern inspired by Karpathy's LLM Wiki:
 - A community Helm chart implementation
 - A Reddit user's `clawbrain` project
-- NOT documented in OpenClaw official docs
+- NOT an official term, but a design pattern
 
 **Fix**: Use descriptive language: "git 驱动持久化设计" (git-driven persistence design)
 
@@ -82,7 +82,7 @@ Core Architecture
 
 ## Commits Made
 
-1. `1ab83ab` - Fix OpenClaw reference terminology
+1. `1ab83ab` - Fix terminology reference
 2. `91d719a` - Move quick install section before architecture
 3. `91a099f` - Add auto-install option via Hermes Agent
 4. `cc23624` - Fix text overflow in architecture diagram

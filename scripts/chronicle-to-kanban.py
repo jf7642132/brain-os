@@ -30,11 +30,12 @@ import re
 import subprocess
 import sys
 from datetime import datetime
+import os
 from pathlib import Path
 from collections import defaultdict
 
 # ── 路径配置 ──────────────────────────────────────────────────
-KNOWLEDGE = Path("/root/.hermes/knowledge")
+KNOWLEDGE = Path(os.environ.get("HERMES_KNOWLEDGE", Path.home() / ".hermes" / "knowledge"))
 CHANNEL_HISTORY_DIR = KNOWLEDGE / "09-personal-ops" / "05-channel-history"
 CHANNEL_HISTORY_LEGACY_DIR = KNOWLEDGE / "09-personal-ops" / "05-频道历史"
 TODO_PATH = KNOWLEDGE / "06-context" / "todo-tracking" / "todo-backlog.md"
@@ -70,7 +71,7 @@ def parse_unsolved_table(content: str) -> list[dict]:
     表格格式（来自史官报告）:
         | 分类 | 内容 | 状态 | 来源 |
         |------|------|------|------|
-        | ops | 关注USTR 301关税复审进展... | 待执行 | TradeRisk预警 |
+        | ops | 示例待办事项 | 待执行 | 系统运维 |
 
     返回:
         [{category, content_text, status, source, source_section}]
@@ -471,7 +472,7 @@ def scan_and_sync(specific_file: str | None = None, dry_run: bool = False, full_
 *创建时间: {datetime.now().strftime('%Y-%m-%d %H:%M')}*"""
 
         assignee = KANBAN_ASSIGNEE
-        # TradeRisk 相关任务给 trade-risk profile
+        # 系统运维相关任务给 default profile
         if "trade" in str(todo.get("source", "")).lower() or "贸易" in todo["content_text"] or "关税" in todo["content_text"]:
             assignee = "knowledge-ops"
 

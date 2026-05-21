@@ -1,29 +1,29 @@
 # Brain OS 架构设计
 
-> 一套基于 OpenClaw git 驱动持久化设计的 Hermes 技能体系
+> 一套基于 Karpathy LLM Wiki 概念和 Obsidian-Brain-OS 设计灵感的 Hermes 技能体系
 
 ## 核心理念
 
-Brain OS 不是独立系统，而是一套**可组合的技能集合**，灵感来源于 OpenClaw 的 git 驱动持久化设计：
+Brain OS 不是独立系统，而是一套**可组合的技能集合**，灵感来源于 [Karpathy 的 LLM Wiki 概念](https://github.com/karpathy/llm-wiki) 和 [Obsidian-Brain-OS](https://github.com/FairladyZ625/Obsidian-Brain-OS) 的 git-backed brain 设计：
 
-- **Git 驱动的知识管理**：所有知识存储在 git 仓库中，版本可控
+- **Git-backed 知识管理**：所有知识存储在 git 仓库中，版本可控
 - **技能可组合**：每个技能独立，可按需组合
 - **自动化工作流**：夜间自动同步、知识挖掘、经验总结
 - **多 Agent 共享**：同一知识库可被多个 Agent 访问
 
 ## 技能清单
 
-Brain OS 包含 7 个核心技能，均为自定义实现：
+Brain OS 包含 5 个核心技能，均为自定义实现：
 
 | 技能 | 定位 | 触发方式 |
 |------|------|----------|
 | `chronicle-agent` | 对话记录归档 | 夜间定时 |
 | `observer` | Agent 自检 | 每次任务完成后 |
-| `llm-wiki` | 知识结构化 | 手动/定时 |
 | `article-notes-integration` | 外部文章整合 | 夜间定时 |
 | `conversation-knowledge-flywheel` | 对话模式挖掘 | 夜间定时 |
 | `knowledge-flywheel-amplifier` | 跨源知识聚合 | 夜间定时 |
-| `cron-git-state-monitoring` | Git 同步 | 定时提交 |
+
+> 以上技能均为自定义实现，非 Hermes 官方内置。
 
 ## 数据流架构
 
@@ -53,13 +53,7 @@ Brain OS 包含 7 个核心技能，均为自定义实现：
 │                                      │                              │
 │                                      ▼                              │
 │                     ┌──────────────────────────────────────────┐   │
-│                     │  llm-wiki (知识结构化)                     │   │
-│                     │  → 构建知识图谱 → knowledge/04/           │   │
-│                     └────────────────┬─────────────────────────┘   │
-│                                      │                              │
-│                                      ▼                              │
-│                     ┌──────────────────────────────────────────┐   │
-│                     │  cron-git-state-monitoring (Git 同步)      │   │
+│                     │  Git 自动提交 (cron-git-state-monitoring)  │   │
 │                     │  → 定时提交 → Git 仓库                     │   │
 │                     └──────────────────────────────────────────┘   │
 │                                                                      │
@@ -100,18 +94,6 @@ knowledge/
 
 ## 技能配置
 
-### cron-git-state-monitoring
-
-定时自动提交 git 变更：
-
-```json
-{
-  "name": "nightly-git-sync",
-  "schedule": "0 2 * * *",
-  "command": "cd ~/.hermes && git add -A && git commit -m 'nightly sync' || true && git push"
-}
-```
-
 ### article-notes-integration
 
 夜间抓取外部文章并整合：
@@ -122,6 +104,15 @@ knowledge/
   "schedule": "0 3 * * *",
   "command": "hermes skills run article-notes-integration"
 }
+```
+
+### Git 自动提交
+
+使用 cron-git-state-monitoring 技能或系统级 cron 任务：
+
+```bash
+# 系统级 cron 任务
+0 2 * * * cd ~/.hermes && git add -A && git commit -m 'nightly sync' || true && git push
 ```
 
 ## 多 Agent 协作
@@ -182,4 +173,4 @@ MIT License
 
 ## 致谢
 
-灵感来源于 [OpenClaw](https://github.com/openclaw/openclaw) 的 git 驱动持久化设计。
+灵感来源于 [Karpathy 的 LLM Wiki 概念](https://github.com/karpathy/llm-wiki) 和 [Obsidian-Brain-OS](https://github.com/FairladyZ625/Obsidian-Brain-OS) 的 git-backed brain 设计。

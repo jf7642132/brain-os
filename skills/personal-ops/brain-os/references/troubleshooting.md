@@ -5,7 +5,7 @@
 ### 问题：发现中文目录
 
 ```bash
-find /root/.hermes/knowledge -type d -name '*[一-龥]*'
+find <KNOWLEDGE_DIR> -type d -name '*[一-龥]*'
 ```
 
 **修复步骤**：
@@ -23,10 +23,10 @@ find /root/.hermes/knowledge -type d -name '*[一-龥]*'
 **修复**：
 ```bash
 # 确认正确路径
-ls -la /root/.hermes/knowledge/06-context/todo-tracking/todo-backlog.md
+ls -la <KNOWLEDGE_DIR>/06-context/todo-tracking/todo-backlog.md
 
 # 更新 kanban-sync.py
-sed -i 's/待办跟进/todo-tracking/g' /root/.hermes/scripts/kanban-sync.py
+sed -i 's/待办跟进/todo-tracking/g' <HERMES_SCRIPTS_DIR>/kanban-sync.py
 
 # 更新 cron 任务
 # 编辑 jobs.json，将所有 "03-个人运营/03-待办跟进/" 替换为 "06-context/todo-tracking/"
@@ -61,7 +61,7 @@ sed -i 's/待办跟进/todo-tracking/g' /root/.hermes/scripts/kanban-sync.py
 **修复**：
 ```bash
 # 手动回写
-python /root/.hermes/scripts/kanban-sync.py \
+python <HERMES_SCRIPTS_DIR>/kanban-sync.py \
   --task kanban-manager \
   --update-todo \
   --kanban-id <card_id> \
@@ -106,9 +106,9 @@ TODO_PATH = os.path.join(KNOWLEDGE_PATH, "06-context", "todo-tracking", "todo-ba
 **修复**：
 ```bash
 # 全局替换
-find /root/.hermes/scripts -name "*.py" -exec sed -i 's/99-系统/99-system/g' {} \;
-find /root/.hermes/scripts -name "*.py" -exec sed -i 's/待办跟进/todo-tracking/g' {} \;
-find /root/.hermes/cron -name "*.json" -exec sed -i 's/待办跟进/todo-tracking/g' {} \;
+find <HERMES_SCRIPTS_DIR> -name "*.py" -exec sed -i 's/99-系统/99-system/g' {} \;
+find <HERMES_SCRIPTS_DIR> -name "*.py" -exec sed -i 's/待办跟进/todo-tracking/g' {} \;
+find <HERMES_CRON_DIR> -name "*.json" -exec sed -i 's/待办跟进/todo-tracking/g' {} \;
 ```
 
 ### 问题：消费者任务 prompt 中路径引用错误
@@ -118,7 +118,7 @@ find /root/.hermes/cron -name "*.json" -exec sed -i 's/待办跟进/todo-trackin
 - 待办提醒找不到待办列表
 
 **修复**：
-1. 打开 `/root/.hermes/cron/jobs.json`
+1. 打开 `<HERMES_CRON_DIR>/jobs.json`
 2. 找到消费者任务（每日早报、待办提醒、晚间待办提醒、每周计划、月度总结）
 3. 将 `03-个人运营/03-待办跟进/todo-backlog.md` 替换为 `06-context/todo-tracking/todo-backlog.md`
 
@@ -128,10 +128,10 @@ find /root/.hermes/cron -name "*.json" -exec sed -i 's/待办跟进/todo-trackin
 
 ```bash
 # 语法检查
-python3 -m py_compile /root/.hermes/scripts/kanban-sync.py
+python3 -m py_compile <HERMES_SCRIPTS_DIR>/kanban-sync.py
 
 # 查看帮助
-python3 /root/.hermes/scripts/kanban-sync.py --help
+python3 <HERMES_SCRIPTS_DIR>/kanban-sync.py --help
 ```
 
 ### 问题：参数缺失
@@ -151,33 +151,33 @@ python3 /root/.hermes/scripts/kanban-sync.py --help
 
 ```bash
 # 检查是否有中文目录
-find /root/.hermes/knowledge -type d -name '*[一-龥]*'
+find <KNOWLEDGE_DIR> -type d -name '*[一-龥]*'
 
 # 检查 todo-backlog.md
-ls -la /root/.hermes/knowledge/06-context/todo-tracking/todo-backlog.md
+ls -la <KNOWLEDGE_DIR>/06-context/todo-tracking/todo-backlog.md
 
 # 检查 tracker 目录
-ls -la /root/.hermes/knowledge/99-system/trackers/
+ls -la <KNOWLEDGE_DIR>/99-system/trackers/
 ```
 
 ### 验证数据流
 
 ```bash
 # 测试 --write-todo
-python /root/.hermes/scripts/kanban-sync.py \
+python <HERMES_SCRIPTS_DIR>/kanban-sync.py \
   --task observer-self-check \
   --write-todo \
   --output /tmp/test-output.txt \
   --dry-run
 
 # 测试 --read-todo
-python /root/.hermes/scripts/kanban-sync.py \
+python <HERMES_SCRIPTS_DIR>/kanban-sync.py \
   --task kanban-manager \
   --read-todo \
   --dry-run
 
 # 测试 --update-todo
-python /root/.hermes/scripts/kanban-sync.py \
+python <HERMES_SCRIPTS_DIR>/kanban-sync.py \
   --task kanban-manager \
   --update-todo \
   --kanban-id 12345 \
@@ -189,11 +189,11 @@ python /root/.hermes/scripts/kanban-sync.py \
 
 ```bash
 # 检查 kanban-sync.py
-grep -n "TODO_PATH\|TRACKERS_DIR" /root/.hermes/scripts/kanban-sync.py
+grep -n "TODO_PATH\|TRACKERS_DIR" <HERMES_SCRIPTS_DIR>/kanban-sync.py
 
 # 检查 cron 任务
-grep -r "03-个人运营\|待办跟进" /root/.hermes/cron/jobs.json
+grep -r "03-个人运营\|待办跟进" <HERMES_CRON_DIR>/jobs.json
 
 # 检查所有脚本
-grep -r "99-系统\|待办跟进" /root/.hermes/scripts/
+grep -r "99-系统\|待办跟进" <HERMES_SCRIPTS_DIR>/
 ```

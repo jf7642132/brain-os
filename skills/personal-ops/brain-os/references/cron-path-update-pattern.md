@@ -20,7 +20,7 @@
 ```python
 import json
 
-with open('/root/.hermes/cron/jobs.json', 'r') as f:
+with open('<HERMES_CRON_DIR>/jobs.json', 'r') as f:
     data = json.load(f)
 
 # 搜索 Brain OS 相关任务
@@ -75,7 +75,7 @@ else:
 ### 4. 提交变更
 
 ```bash
-cd /root/.hermes/knowledge
+cd <KNOWLEDGE_DIR>
 git add -A
 git commit -m "P2 修复：更新 cron 任务路径引用"
 ```

@@ -42,7 +42,7 @@ Error code: 429 - {'error': {'message': 'Provider returned error', 'code': 429,
 
 **日志格式**:
 ```
-  in "/root/.hermes/config.yaml", line 22, column 5. Falling back to default config —
+  in "<HERMES_CONFIG>", line 22, column 5. Falling back to default config —
   every user override (auxiliary providers, fallback chain, model settings) is being
   IGNORED. Fix the YAML and restart.
 ```

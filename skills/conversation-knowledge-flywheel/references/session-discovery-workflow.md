@@ -12,7 +12,7 @@ import os
 import time
 from datetime import datetime
 
-sessions_dir = "/root/.hermes/sessions"
+sessions_dir = "<HERMES_SESSIONS_DIR>"
 now = time.time()
 threshold = now - 86400  # 24 hours
 
@@ -95,7 +95,7 @@ for msg in messages:
 ```python
 import sqlite3
 
-db_path = '/root/.hermes/state.db'
+db_path = '<HERMES_STATE_DB>'
 conn = sqlite3.connect(db_path)
 cursor = conn.cursor()
 
@@ -167,7 +167,7 @@ def parse_session_file(filepath):
 {
   "date": "YYYY-MM-DD",
   "generated_at": "YYYY-MM-DDTHH:MM:SS+08:00",
-  "source_dir": "/root/.hermes/sessions",
+  "source_dir": "<HERMES_SESSIONS_DIR>",
   "sessions_scanned": 70,
   "sessions_analyzed": 3,
   "knowledge_items": [

@@ -9,15 +9,17 @@
 4. 发送通知
 
 用法：
-    python lint-to-kanban.py --wiki /root/.hermes/knowledge
-    python lint-to-kanban.py --wiki /root/.hermes/knowledge --dry-run
-    python lint-to-kanban.py --wiki /root/.hermes/knowledge --fix broken-links
+    python lint-to-kanban.py --wiki <KNOWLEDGE_DIR>
+    python lint-to-kanban.py --wiki <KNOWLEDGE_DIR> --dry-run
+    python lint-to-kanban.py --wiki <KNOWLEDGE_DIR> --fix broken-links
 """
 
 import argparse
 import json
 import os
+import os
 import re
+from pathlib import Path
 import subprocess
 import sys
 from datetime import datetime
@@ -26,10 +28,10 @@ from collections import defaultdict
 
 
 # 配置
-WIKI_PATH = "/root/.hermes/knowledge"
+WIKI_PATH = os.environ.get("HERMES_KNOWLEDGE", str(Path.home() / ".hermes" / "knowledge"))
 REPORTS_DIR = f"{WIKI_PATH}/99-系统/lint-reports"
 TRACKER_FILE = f"{REPORTS_DIR}/issues-tracker.md"
-LINT_SCRIPT = os.path.expanduser("~/.hermes/skills/research/llm-wiki/scripts/wiki-lint.py")
+LINT_SCRIPT = os.environ.get("HERMES_LINT_SCRIPT", "")  # 用户自定义 lint 脚本
 
 # Kanban 配置
 KANBAN_ASSIGNEE = "knowledge-ops"  # 知识库运维角色

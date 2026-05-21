@@ -6,16 +6,16 @@
 
 Hermes stores session data in two locations:
 - **`state.db` (SQLite)** — Primary storage for recent sessions
-- **`/root/.hermes/sessions/*.jsonl`** — Archive storage for historical sessions
+- **`<HERMES_SESSIONS_DIR>/*.jsonl`** — Archive storage for historical sessions
 
 ## Critical Finding: Session Files Are Archived
 
-**Discovery (2026-05-18)**: The `/root/.hermes/sessions/` directory contains **archived/historical sessions**, not recent ones.
+**Discovery (2026-05-18)**: The `<HERMES_SESSIONS_DIR>/` directory contains **archived/historical sessions**, not recent ones.
 
 | Storage | Content | Use Case |
 |---------|---------|----------|
 | `state.db` | Recent sessions (last ~24-48 hours) | Primary source for Chronicle Agent scans |
-| `/root/.hermes/sessions/*.jsonl` | Archived sessions (weeks/months old) | Historical reference, not for recent scans |
+| `<HERMES_SESSIONS_DIR>/*.jsonl` | Archived sessions (weeks/months old) | Historical reference, not for recent scans |
 
 **Evidence**: Session files in the directory are dated from April 2026 (e.g., `20260411_221351_*.jsonl`, `20260415_*.jsonl`), while recent sessions from May 18 only exist in `state.db`.
 
@@ -27,7 +27,7 @@ For time-window scans (e.g., last 2 hours), **always query `state.db` first**:
 
 ```python
 import sqlite3
-conn = sqlite3.connect('/root/.hermes/state.db')
+conn = sqlite3.connect('<HERMES_STATE_DB>')
 cur = conn.cursor()
 cur.execute("""
     SELECT id, source, started_at, message_count, title

@@ -65,14 +65,14 @@
 ## Output Path
 
 ```
-/root/.hermes/knowledge/03-个人运营/05-频道历史/YYYY-MM-DD-HH.md
+<KNOWLEDGE_DIR>/03-个人运营/05-频道历史/YYYY-MM-DD-HH.md
 ```
 
 ## Git Commit
 
 After writing, commit with:
 ```bash
-cd /root/.hermes/knowledge
+cd <KNOWLEDGE_DIR>
 git add -A
 git commit -m "auto: Chronicle Agent scan YYYY-MM-DD HH:MM"
 ```

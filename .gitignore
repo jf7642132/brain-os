@@ -27,7 +27,7 @@ __pycache__/
 *.tmp
 *.bak
 *.log
-# Paperclip skills with credentials - exclude from open-source
+# Skills with credentials - exclude from open-source
 skills/devops/paperclip-data-reconstruction/
 skills/devops/paperclip-local-deploy/
 skills/devops/paperclip-docker-deploy/

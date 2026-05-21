@@ -112,7 +112,7 @@ All Observer output must be in Chinese:
 
 **Common format**:
 ```
-  in "/root/.hermes/config.yaml", line {N}, column {M}. Falling back to default config — every user override (auxiliary providers, fallback chain, model settings) is being IGNORED. Fix the YAML and restart.
+  in "<HERMES_CONFIG>", line {N}, column {M}. Falling back to default config — every user override (auxiliary providers, fallback chain, model settings) is being IGNORED. Fix the YAML and restart.
 ```
 
 **Root cause**: YAML syntax error in config.yaml prevents parser from loading custom configuration. The location (line/column) indicates where the parser stopped, not necessarily the exact error location.

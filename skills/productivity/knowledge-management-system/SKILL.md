@@ -24,12 +24,12 @@ A systematic approach to creating, maintaining, and evolving personal knowledge 
 
 ## Environment-Specific Adaptation (for Brain OS Wiki)
 
-⚠️ **MIGRATION NOTICE (2026-05-14)**: The knowledge base was migrated from `/root/wiki/` to `/root/.hermes/knowledge/`. The old `/root/wiki/` directory has been deleted. All new content should use the new paths.
+⚠️ **MIGRATION NOTICE (2026-05-14)**: The knowledge base was migrated from `<OLD_KNOWLEDGE_DIR>/` to `<KNOWLEDGE_DIR>/`. The old `<OLD_KNOWLEDGE_DIR>/` directory has been deleted. All new content should use the new paths.
 
-When working with the Brain OS Wiki structure (`/root/.hermes/knowledge/`):
+When working with the Brain OS Wiki structure (`<KNOWLEDGE_DIR>/`):
 
 ```
-/root/.hermes/knowledge/
+<KNOWLEDGE_DIR>/
 ├── 00-收件箱/        # 零散内容待处理
 ├── 01-项目/          # 项目空间
 ├── 02-工作产出/      # 工作产出归档
@@ -45,19 +45,19 @@ When working with the Brain OS Wiki structure (`/root/.hermes/knowledge/`):
 
 | Old Path | New Path |
 |----------|----------|
-| `/root/wiki/01-个人运营/` | `/root/.hermes/knowledge/03-个人运营/` |
-| `/root/wiki/03-知识库/` | `/root/.hermes/knowledge/04-知识库/` |
-| `/root/wiki/05-系统配置/` | `/root/.hermes/knowledge/05-系统配置/` |
+| `<OLD_KNOWLEDGE_DIR>/01-个人运营/` | `<KNOWLEDGE_DIR>/03-个人运营/` |
+| `<OLD_KNOWLEDGE_DIR>/03-知识库/` | `<KNOWLEDGE_DIR>/04-知识库/` |
+| `<OLD_KNOWLEDGE_DIR>/05-系统配置/` | `<KNOWLEDGE_DIR>/05-系统配置/` |
 
 ### Project Directory Naming Rules (来自实操教训)
 
-**核心原则：Wiki项目目录名必须与Paperclip中的项目名完全一致。**
+**核心原则：Wiki项目目录名必须与外部系统中的项目名完全一致。**
 
 | 规则 | 说明 | 示例 |
 |------|------|------|
-| 01-前缀 | 按创建顺序编号 | 01-化工品外贸智能系统 |
-| 名称一致 | 跟Paperclip项目名完全一致 | 不要写"外贸风险预警"而Paperclip里叫"化工品外贸智能系统" |
-| 99-存档 | 旧项目/已合并项目放99-前缀 | 99-外贸风险预警智能体(旧存档) |
+| 01-前缀 | 按创建顺序编号 | 01-化工通用业务智能系统 |
+| 名称一致 | 跟外部系统项目名完全一致 | 不要写"通用业务风险预警"而外部系统里叫"化工通用业务智能系统" |
+| 99-存档 | 旧项目/已合并项目放99-前缀 | 99-通用业务风险预警智能体(旧存档) |
 
 **文档组织：**
 ```
@@ -68,9 +68,9 @@ When working with the Brain OS Wiki structure (`/root/.hermes/knowledge/`):
 └── README.md        # 项目概述
 ```
 
-### 与 Paperclip 同步维护
+### 与外部系统同步维护
 
-当项目状态在 Paperclip 中发生变化时（新增Agent、Goal、Issue），必须同步更新Wiki项目文档：
+当项目状态在外部系统中发生变化时（新增Agent、Goal、Issue），必须同步更新Wiki项目文档：
 1. 更新 PROJECT-START.md（项目概况、团队、任务数）
 2. 更新 多Agent框架设计（Agent列表变化）
 3. 更新 TEAM-RECRUITMENT（任务分布、商业化进度）
@@ -227,7 +227,7 @@ Run a systematic audit weekly via cron (`knowledge-lint-weekly`) to detect struc
 
 ### Exempt Categories (auto-generated, no audit concern)
 
-- Short drama scripts (`01-项目/02-红果短剧改编/*/script/`)
+- 特定项目脚本 (`01-项目/02-特定项目改编/*/script/`)
 - Channel history logs (`03-个人运营/05-频道历史/`)
 - Nightly digests (`04-知识库/01-阅读消化/04-摘要汇总/`)
 - Nightly reports (`04-知识库/99-系统/03-*报告/`)
@@ -243,7 +243,7 @@ Run a systematic audit weekly via cron (`knowledge-lint-weekly`) to detect struc
 import json, re, os
 from collections import defaultdict
 
-KB = "/root/.hermes/knowledge"
+KB = "<KNOWLEDGE_DIR>"
 files = []
 for root, dirs, fnames in os.walk(KB):
     if '.git' in dirs: dirs.remove('.git')
@@ -385,9 +385,9 @@ python3 /path/to/audit-script.py 2>&1
 - 问题追踪器: `lint-reports/issues-tracker.md`
 - 通知渠道: Telegram（避免微信限流）
 
-**脚本位置**: `/root/.hermes/scripts/`（也可从 skill 的 scripts 目录调用）
+**脚本位置**: `<HERMES_SCRIPTS_DIR>/`（也可从 skill 的 scripts 目录调用）
 
 ## Migration History
 
-**2026-05-14**: Knowledge base migrated from `/root/wiki/` to `/root/.hermes/knowledge/`
+**2026-05-14**: Knowledge base migrated from `<OLD_KNOWLEDGE_DIR>/` to `<KNOWLEDGE_DIR>/`
 - See `chronicle-agent/references/directory-structure-migration.md` for details

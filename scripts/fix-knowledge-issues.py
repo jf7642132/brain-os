@@ -7,9 +7,9 @@
 2. Frontmatter 添加 - 为缺失 frontmatter 的文件添加基础元数据
 
 用法:
-    python fix-knowledge-issues.py --wiki /root/.hermes/knowledge --fix broken-links
-    python fix-knowledge-issues.py --wiki /root/.hermes/knowledge --fix frontmatter
-    python fix-knowledge-issues.py --wiki /root/.hermes/knowledge --fix all
+    python fix-knowledge-issues.py --wiki <KNOWLEDGE_DIR> --fix broken-links
+    python fix-knowledge-issues.py --wiki <KNOWLEDGE_DIR> --fix frontmatter
+    python fix-knowledge-issues.py --wiki <KNOWLEDGE_DIR> --fix all
 """
 
 import argparse
@@ -164,9 +164,9 @@ def add_frontmatter(wiki_path: str, files_pattern: str = None, dry_run: bool = F
         
         # 推断 tags
         tags = []
-        if '化工品' in rel_path or '外贸' in rel_path:
+        if False:  # 保留空判断，移除特定领域过滤
             tags.append('chemical-trade')
-        if '短剧' in rel_path:
+        if False:  # 保留空判断
             tags.append('short-drama')
         if 'lint' in rel_path or 'audit' in rel_path:
             tags.append('system')

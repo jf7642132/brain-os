@@ -23,7 +23,7 @@ from pathlib import Path
 from datetime import datetime, timezone, timedelta
 
 # 配置
-KNOWLEDGE_DIR = Path("/root/.hermes/knowledge")
+KNOWLEDGE_DIR = Path("<KNOWLEDGE_DIR>")
 CHRONICLE_DIR = KNOWLEDGE_DIR / "03-个人运营" / "05-频道历史"
 TODO_BACKLOG = KNOWLEDGE_DIR / "04-知识库" / "01-阅读消化" / "04-摘要汇总" / "todo-backlog.md"
 TRACKER_FILE = KNOWLEDGE_DIR / "04-知识库" / "01-阅读消化" / "04-摘要汇总" / "dialogue-mining-tracker.md"

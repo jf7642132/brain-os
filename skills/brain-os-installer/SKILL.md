@@ -36,7 +36,7 @@ related_skills: []
 
 ### Q3: AI 平台
 > "你用什么 AI 平台？
-> A) OpenClaw（支持 cron 定时任务）
+> A) 支持 cron 定时任务的系统
 > B) 其他 AI 助手（Claude / GPT 等，没有定时任务）
 > C) 我自己搞定 AI 部分"
 
@@ -97,7 +97,7 @@ bash setup.sh
 **setup.sh 会做什么**：
 1. 询问 vault 路径，复制模板
 2. 询问用户名、时区、语言
-3. 询问 OpenClaw workspace 路径和 skills 路径
+3. 询问 workspace 路径和 skills 路径
 4. 询问是否安装 conversation-mining
 5. **初始化 Observer `.learnings/` 目录**（可选，v0.5 新增）
 6. **运行 PII 扫描验证**（确保仓库无私有数据泄露，v0.5 新增）
@@ -207,7 +207,7 @@ openclaw cron import Obsidian-Brain-OS/cron-examples/generated/personal-ops.json
 | Obsidian 不显示 vault | 检查路径是否为目录 |
 | 脚本 "command not found" | 检查 Python/bash 版本；确认 `config.env` 已配置 |
 | convs 找不到 | 可选组件；`export-conversations.sh` 会自动跳过 |
-| Cron 不运行 | 确认 OpenClaw gateway 运行中 |
+| Cron 不运行 | 确认 gateway 运行中 |
 | Knowledge lint 找不到文件 | 确认 `BRAIN_PATH` 指向 vault 根目录 |
 | **Kanban → Todo 同步失败** | 检查 `kanban-sync.py` 的 `TODO_PATH` 配置是否正确指向实际文件位置；确认 `--kanban-id`、`--status` 等参数已定义 |
 | **Kanban 任务完成后 todo 未自动更新** | 脚本缺少 `--update-todo` 参数定义；需添加 `--kanban-id`、`--status`、`--completed-date`、`--method` 参数；可配置 cron 定时任务自动同步 |

@@ -28,7 +28,7 @@ Always verify current state with live validation, not just log grep:
 grep -c 'Falling back to default config' ~/.hermes/logs/errors.log || echo 0
 
 # Verify current state
-python -c "import yaml; yaml.safe_load(open('/root/.hermes/config.yaml'))" && echo "Valid" || echo "Invalid"
+python -c "import yaml; yaml.safe_load(open('<HERMES_CONFIG>'))" && echo "Valid" || echo "Invalid"
 
 # Check recent errors only (last 24 hours)
 grep "$(date +%Y-%m-%d)" ~/.hermes/logs/errors.log | grep -c 'Falling back to default config' || echo 0

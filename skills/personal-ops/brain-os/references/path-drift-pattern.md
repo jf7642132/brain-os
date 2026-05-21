@@ -22,12 +22,12 @@
 
 ```bash
 # 查找所有中文目录
-find /root/.hermes/knowledge -type d -name '*[一-龥]*'
+find <KNOWLEDGE_DIR> -type d -name '*[一-龥]*'
 
 # 检查技能文档中的路径引用
-grep -r "03-知识库\|04-知识库\|99-系统" /root/.hermes/skills/article-notes-integration/
-grep -r "04-知识库\|99-系统" /root/.hermes/skills/conversation-knowledge-flywheel/
-grep -r "04-知识库\|99-系统" /root/.hermes/skills/knowledge-flywheel-amplifier/
+grep -r "03-知识库\|04-知识库\|99-系统" <HERMES_ROOT>/skills/article-notes-integration/
+grep -r "04-知识库\|99-系统" <HERMES_ROOT>/skills/conversation-knowledge-flywheel/
+grep -r "04-知识库\|99-系统" <HERMES_ROOT>/skills/knowledge-flywheel-amplifier/
 ```
 
 ## 修复步骤
@@ -48,7 +48,7 @@ grep -r "04-知识库\|99-系统" /root/.hermes/skills/knowledge-flywheel-amplif
 
 | 组件 | 正确路径 |
 |------|----------|
-| 知识库根目录 | `/root/.hermes/knowledge/` |
+| 知识库根目录 | `<KNOWLEDGE_DIR>/` |
 | 文章整合报告 | `99-system/03-integration-reports/YYYY-MM-DD/` |
 | 对话挖掘报告 | `99-system/03-integration-reports/YYYY-MM-DD/` |
 | 放大器报告 | `99-system/03-integration-reports/YYYY-MM-DD/` |

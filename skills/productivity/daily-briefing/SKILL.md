@@ -17,7 +17,7 @@ Generate a daily briefing from the knowledge base todo-backlog, summarize yester
    - Run `date +%Y-%m-%d` to get `YYYY-MM-DD`.
 
 2. **Read the Todo Backlog**
-   - Read `/root/.hermes/knowledge/03-个人运营/03-待办跟进/todo-backlog.md`.
+   - Read `<KNOWLEDGE_DIR>/03-个人运营/03-待办跟进/todo-backlog.md`.
    - Extract any tasks due today (if any) or note that the backlog is empty.
 
 3. **Summarize Yesterday's Work**
@@ -25,7 +25,7 @@ Generate a daily briefing from the knowledge base todo-backlog, summarize yester
    - Optionally filter for auto‑generated scans vs manual work.
 
 4. **Write the Briefing File**
-   - Create `/root/.hermes/knowledge/03-个人运营/01-每日简报/YYYY-MM-DD.md` with sections:
+   - Create `<KNOWLEDGE_DIR>/03-个人运营/01-每日简报/YYYY-MM-DD.md` with sections:
      - # 驾驶舱简报 - YYYY-MM-DD
      - ## 今日待办跟进（来自 todo-backlog.md）
      - ## 昨日完成工作（YYYY-MM-DD）
@@ -34,7 +34,7 @@ Generate a daily briefing from the knowledge base todo-backlog, summarize yester
    - Fill in the content gathered above.
 
 5. **Commit to Git**
-   - `cd /root/.hermes/knowledge`
+   - `cd <KNOWLEDGE_DIR>`
    - `git add 03-个人运营/01-每日简报/YYYY-MM-DD.md`
    - `git commit -m "auto: 驾驶舱简报 YYYY-MM-DD"`
    - (Optional) `git push` if remote is configured.
