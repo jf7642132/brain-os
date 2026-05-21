@@ -50,11 +50,11 @@ Brain OS 依赖以下自定义技能，需安装到技能目录：
 |------|------|
 | `chronicle-agent` | 对话记录归档，构建知识时间线 |
 | `observer` | Agent 自检，发现错误并记录经验 |
-| `llm-wiki` | 知识结构化存储 |
 | `article-notes-integration` | 外部文章抓取与整合 |
 | `conversation-knowledge-flywheel` | 对话模式挖掘 |
 | `knowledge-flywheel-amplifier` | 跨源知识聚合 |
-| `cron-git-state-monitoring` | 定时 git 提交 |
+
+> 以上技能均为自定义实现，非 Hermes 官方内置。安装时请确保这些技能已存在于 `~/.hermes/skills/` 目录中。
 
 ## 使用
 
