@@ -283,11 +283,10 @@ hermes cron show <task-id>
 hermes cron run <task-id>
 ```
 
-#### 任务列表（19 个）
+#### 任务列表（16 个）
 
 | 任务名称 | 调度 | 作用 |
 |----------|------|------|
-| Daily full backup | `0 2 * * *` | 每日备份 .hermes |
 | Brain OS 每日早报 | `0 7 * * *` | 生成今日待办简报 |
 | Brain OS 午间待办提醒 | `0 14 * * *` | 午间待办提醒 |
 | Brain OS 晚间待办提醒 | `30 20 * * *` | 晚间待办提醒 |
