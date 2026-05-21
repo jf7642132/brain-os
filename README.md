@@ -1,10 +1,10 @@
 # Brain OS
 
-> 一套基于 Obsidian-Brain-OS 设计灵感、结合 Hermes Kanban 任务管理的技能体系
+> 一套基于 Karpathy LLM Wiki 概念和 Obsidian-Brain-OS 设计灵感、结合 Hermes Kanban 任务管理的技能体系
 
 ## 这是什么
 
-Brain OS **不是独立系统**，而是一套**可组合的技能集合**，灵感来源于 [Obsidian-Brain-OS](https://github.com/FairladyZ625/Obsidian-Brain-OS) 的 git-backed brain 设计（将 agent 的 memory、config、workspace 存储在 git 仓库中实现持久化和多实例共享）。
+Brain OS **不是独立系统**，而是一套**可组合的技能集合**，灵感来源于 [Karpathy 的 LLM Wiki 概念](https://github.com/karpathy/llm-wiki) 和 [Obsidian-Brain-OS](https://github.com/FairladyZ625/Obsidian-Brain-OS) 的 git-backed brain 设计（将 agent 的 memory、config、workspace 存储在 git 仓库中实现持久化和多实例共享）。
 
 **核心创新**：以 **`todo-backlog.md` 为统一任务入口**，通过 **生产者-消费者架构** 实现知识的自动生产、管理和进化，Kanban 作为 todo 的可视化界面提供双向同步。
 
@@ -362,7 +362,7 @@ MIT License
 
 ## 致谢
 
-灵感来源于 [Obsidian-Brain-OS](https://github.com/FairladyZ625/Obsidian-Brain-OS) 的 git-backed brain 设计。
+灵感来源于 [Karpathy 的 LLM Wiki 概念](https://github.com/karpathy/llm-wiki) 和 [Obsidian-Brain-OS](https://github.com/FairladyZ625/Obsidian-Brain-OS) 的 git-backed brain 设计。
 
 ## 更新日志
 

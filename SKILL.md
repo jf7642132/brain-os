@@ -1,6 +1,6 @@
 # Brain OS
 
-> 一套基于 Obsidian-Brain-OS 设计灵感的 Hermes 技能体系，实现 Agent 的 git-backed 知识管理。
+> 一套基于 Karpathy LLM Wiki 概念和 Obsidian-Brain-OS 设计灵感的 Hermes 技能体系，实现 Agent 的 git-backed 知识管理。
 
 ## 快速安装
 
@@ -83,7 +83,7 @@ hermes skills run observer
 
 ## 架构
 
-灵感来源于 [Obsidian-Brain-OS](https://github.com/FairladyZ625/Obsidian-Brain-OS) 的 git-backed brain 设计：
+灵感来源于 [Karpathy 的 LLM Wiki 概念](https://github.com/karpathy/llm-wiki) 和 [Obsidian-Brain-OS](https://github.com/FairladyZ625/Obsidian-Brain-OS) 的 git-backed brain 设计：
 
 ```
 用户对话 → chronicle-agent 记录
